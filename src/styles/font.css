@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'Satoshi Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Regular'), url('../fonts/Satoshi-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Light';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Light'), url('../fonts/Satoshi-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Medium'), url('../fonts/Satoshi-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Bold'), url('../fonts/Satoshi-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Satoshi Black';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Satoshi Black'), url('../fonts/Satoshi-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'IntegralCF Bold';
+  src: local('IntegralCF Bold'), url('../fonts/IntegralCF-Bold.woff') format('woff');
+}
