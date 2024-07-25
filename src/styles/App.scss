@@ -780,6 +780,13 @@
   &__slider {
     margin: 0 auto;
     padding: 0 1rem;
+    display: flex;
+    gap: 20px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
     
     @include for-tablet {
       max-width: calc(100% - 100px);
@@ -796,7 +803,8 @@
     border-radius: 20px;
     // width: max-content;
     height: 100%;
-    // max-height: 240px;
+    min-height: 250px;
+    min-width: 400px;
 
     &__ratings {
       display: flex;
@@ -1128,71 +1136,6 @@
   }
 }
 
-
-
-
-.slider {
-  position: relative;
-  width: 100%;
-  max-width: 900px; /* Adjusted for 3 slides */
-  margin: auto;
-  overflow: hidden;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.slide-container {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  width: calc(100% + 60px); /* Adjusted for offset */
-  margin-left: -30px; /* Adjusted for offset */
-}
-
-.slide {
-  flex: 1 0 33.33%; /* 3 slides per view */
-  padding: 10px;
-  opacity: 0.6; /* Make offset slides semi-transparent */
-  transform: scale(0.8); /* Scale down the offset slides */
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.slide img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.offset-left,
-.offset-right {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.left-arrow, .right-arrow {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 10;
-}
-
-.left-arrow {
-  margin-right: auto;
-  margin-left: 10px;
-}
-
-.right-arrow {
-  margin-left: auto;
-  margin-right: 10px;
-}
-
-.left-arrow:hover, .right-arrow:hover {
-  background-color: rgba(0, 0, 0, 0.7);
-}
 
 /* 
   =======================

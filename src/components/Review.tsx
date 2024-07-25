@@ -1,10 +1,4 @@
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-// Default theme
-import '@splidejs/react-splide/css';
-import '@splidejs/react-splide/css/core';
-
 import ReviewSlides from "./ReviewSlides"
-// import XSlider from "./XSlider"
 
 export default function Review() {
 
@@ -35,7 +29,7 @@ export default function Review() {
         {/* <XSlider /> */}
 
         <div className="review__slider">
-          <ReviewSlides Splide={Splide} SplideSlide={SplideSlide}/>
+          <ReviewSlides />
         </div>
       </div>
     </div>
