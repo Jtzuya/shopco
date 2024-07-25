@@ -27,7 +27,7 @@ function App() {
         which page it will render.
       */}
       <Routes>
-        <Route exact={true} path='/' element={<Home />} />
+        <Route path='/' element={<Home />} />
         <Route path='/on-sale' element={<OnSale />} />
         <Route path='/new-arrivals' element={<NewArrivals />} />
         <Route path='/brands' element={<Brands />} />

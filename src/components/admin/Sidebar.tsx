@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
 
-export default function Sidebar(props) {
+interface Sidebar {
+  currentPage: string;
+}
+
+export default function Sidebar(props: Sidebar) {
   const {currentPage} = props
 
   return (

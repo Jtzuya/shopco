@@ -4,7 +4,7 @@ import '@splidejs/react-splide/css';
 import '@splidejs/react-splide/css/core';
 
 import ReviewSlides from "./ReviewSlides"
-import XSlider from "./XSlider"
+// import XSlider from "./XSlider"
 
 export default function Review() {
 

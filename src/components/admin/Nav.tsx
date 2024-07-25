@@ -1,6 +1,10 @@
 import texture from '../../assets/grainy-texture.svg'
 
-export default function Nav(props) {
+interface Nav {
+  name: string;
+}
+
+export default function Nav(props: Nav) {
   const { name } = props
   return (
     <nav className='nav'>

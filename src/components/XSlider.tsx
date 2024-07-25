@@ -1,17 +1,17 @@
 import { useState } from "react";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window
-  return {
-    width,
-    height
-  }
-}
+// function getWindowDimensions() {
+//   const { innerWidth: width, innerHeight: height } = window
+//   return {
+//     width,
+//     height
+//   }
+// }
 
 export default function XSlider() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const { width, height } = getWindowDimensions()
+  // const { width, height } = getWindowDimensions()
   // debugger
   
   const slides = [

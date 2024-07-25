@@ -1,11 +1,20 @@
 // import 'dotenv/config'
 // const serverOrigin = process.env.REACT_APP_SERVER
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, MutableRefObject } from 'react'
 
-export default function Table(props) {
+interface Product {
+  name: string;
+  stock: number;
+}
+
+interface TableProps {
+  products: Product[];
+}
+
+export default function Table(props: TableProps) {
   const [checkbox, setCheckbox] = useState(false)
   const { products } = props
-  const itemRefs: any = []
+  const itemRefs: MutableRefObject<HTMLInputElement | null>[] = [];
 
   if (products && products.length > 0) {
     for (let i = 0; i < products.length; i++) {
@@ -20,17 +29,16 @@ export default function Table(props) {
   useEffect(() => {
     if (checkbox === true) {
       itemRefs.forEach(i => {
-        // console.log(i)
-        i.current.checked = true
+        if (i.current) i.current.checked = true
       })
     } 
 
     if (checkbox === false) {
       itemRefs.forEach(i => {
-        i.current.checked = false
+        if (i.current) i.current.checked = false
       })
     }
-  }, [checkbox])
+  }, [checkbox, itemRefs])
 
   return (
     <div className="table">

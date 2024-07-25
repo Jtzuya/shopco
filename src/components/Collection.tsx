@@ -1,7 +1,37 @@
-export default function Collection(props: any) {
+interface Reviews {
+  name: string;
+  message: string;
+  date: string;
+  verified: boolean;
+  rating_count: number;
+}
+
+interface Product {
+  id: number;
+  title: string;
+  colors: string[];
+  sizes: string[];
+  category: string[];
+  details: string;
+  product_summary: string;
+  images: string[];
+  current_price: number;
+  stock: number;
+  reviews: Reviews[];
+}
+
+
+interface CollectionProps {
+  underline?: boolean;
+  toCollection?: boolean;
+  title: string;
+  data: Product[];
+}
+
+export default function Collection(props: CollectionProps) {
   const { underline, toCollection, title, data } = props
-  const review_count = 4.5
-  const review_stars = 5
+  // const review_count = 4.5
+  // const review_stars = 5
 
   return(
     <section className="collection">
