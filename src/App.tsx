@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // import { useState } from 'react'
 
 /** pages */
@@ -19,31 +19,33 @@ import AdminTransaction from './pages/admin/Transaction'
 import './styles/App.scss'
 
 function App() {
+  const origin = window.origin;
+
   return (
-    <HashRouter>
+    <BrowserRouter>
       {/* 
         Route simply is the assignment of pages 
         While Link has a connection to Route in
         which page it will render.
       */}
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/on-sale' element={<OnSale />} />
-        <Route path='/new-arrivals' element={<NewArrivals />} />
-        <Route path='/brands' element={<Brands />} />
-        <Route path='/cart' element={<Cart />} />
-        <Route path='/user' element={<User />} />
+        <Route path={`${origin}/`} element={<Home />} />
+        <Route path={`${origin}/on-sale`} element={<OnSale />} />
+        <Route path={`${origin}/new-arrivals`} element={<NewArrivals />} />
+        <Route path={`${origin}/brands`} element={<Brands />} />
+        <Route path={`${origin}/cart`} element={<Cart />} />
+        <Route path={`${origin}/user`} element={<User />} />
 
         {/* Protected Routes */}
-        <Route path='/admin' element={<Admin />} /> {/** Overview */}
-        <Route path='/admin/product-list' element={<AdminProductList />} />
-        <Route path='/admin/product' element={<AdminProduct />} />
-        <Route path='/admin/product/new' element={<AdminProduct />} />
-        <Route path='/admin/product/:id' element={<AdminProduct />} />
-        <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
-        <Route path='/admin/transaction' element={<AdminTransaction />} />
+        <Route path={`${origin}/admin`} element={<Admin />} /> {/** Overview */}
+        <Route path={`${origin}/admin/product-list`} element={<AdminProductList />} />
+        <Route path={`${origin}/admin/product`} element={<AdminProduct />} />
+        <Route path={`${origin}/admin/product/new`} element={<AdminProduct />} />
+        <Route path={`${origin}/admin/product/:id`} element={<AdminProduct />} />
+        <Route path={`${origin}/admin/transaction-list`} element={<AdminTransactionList />} />
+        <Route path={`${origin}/admin/transaction`} element={<AdminTransaction />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 
