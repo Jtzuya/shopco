@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 // import { useState } from 'react'
 
 /** pages */
@@ -20,7 +20,7 @@ import './styles/App.scss'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       {/* 
         Route simply is the assignment of pages 
         While Link has a connection to Route in
@@ -43,7 +43,7 @@ function App() {
         <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
         <Route path='/admin/transaction' element={<AdminTransaction />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
