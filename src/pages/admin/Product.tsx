@@ -1,37 +1,38 @@
 import { useParams, Link } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 export default function Product() {
   const params = useParams();
   const param = 'id' in params ? params : null
+  console.log(param)
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.ctrlKey && event.key === 'r') {
-        event.preventDefault(); // Prevent the default refresh action
-        // Use prompt to display a confirmation message
-        const userResponse = window.confirm('Data will be removed. Are you sure?');
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     if (event.ctrlKey && event.key === 'r') {
+  //       event.preventDefault(); // Prevent the default refresh action
+  //       // Use prompt to display a confirmation message
+  //       const userResponse = window.confirm('Data will be removed. Are you sure?');
         
-        if (userResponse) {
-          // User clicked "OK"
-          console.log('User confirmed');
-          window.location.reload()
-        } else {
-          // User clicked "Cancel"
-          console.log('User canceled');
-        }
-      }
-    };
+  //       if (userResponse) {
+  //         // User clicked "OK"
+  //         console.log('User confirmed');
+  //         window.location.reload()
+  //       } else {
+  //         // User clicked "Cancel"
+  //         console.log('User canceled');
+  //       }
+  //     }
+  //   };
 
-    // Add the event listener for keydown
-    window.addEventListener('keydown', handleKeyDown);
+  //   // Add the event listener for keydown
+  //   window.addEventListener('keydown', handleKeyDown);
 
-    // Cleanup the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  //   // Cleanup the event listener when the component is unmounted
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
 
   // debugger
   // TODO: if param is null. It is to create a new product
