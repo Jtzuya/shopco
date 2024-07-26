@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function ProductList() {
   const [productsArr, setProductsArr] = useState(null)
+  const origin = window.origin
 
   useEffect(() => {
     // Pull data from db
@@ -48,7 +49,7 @@ export default function ProductList() {
       <main className="products">
         <Nav name='Products Dashboard' />
         <div className="products__links">
-          <Link to="/product/new" className="products__create">Add product</Link>
+          <Link to={`${origin}/admin/product/new`} className="products__create">Add product</Link>
         </div>
 
         {
