@@ -1380,6 +1380,122 @@
     width: 100%;
   }
 
+  .overview {
+
+    &__daily-statistics {
+      display: flex;
+      gap: 31.04px;
+      padding: 30.62px;
+      margin: -82.26px 0 0 0;
+    }
+
+    &__card {
+      flex: 1;
+      padding: 22.93px 23.22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      border-radius: 15.29px;
+      background: rgb(0,0,0);
+      background: linear-gradient(123deg, rgba(0,0,0,1) 19%, rgba(0,0,0,0) 100%);
+      position: relative;
+      min-width: 350px;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: blur(40.13px);
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(123deg, rgba(0,0,0,1) 19%, rgba(0,0,0,0) 100%);
+      }
+
+
+      &-group {
+        position: relative;
+        z-index: 1;
+      }
+
+      &-title {
+        font-family: v.$fontMedium;
+        font-size: 16.4px;
+        color: #D1D1D1;
+        line-height: 140%;
+        margin: 0 0 8.2px;
+      }
+
+      &-revenue {
+        font-family: v.$fontBoldSatoshi;
+        font-size: 24.59px;
+        color: #fff;
+        line-height: 140%;
+        margin: 0 0 8.2px;
+      }
+
+      &-more {
+        display: flex;
+        align-items: center;
+        gap: 6.15px
+      }
+
+      &-tag {
+        border-radius: 24.59px;
+        color: #fff;
+        padding: 2.05px 8.2px 2.05px 4.1px;
+        background-color: rgb(38 102 99 / 20%);
+        display: flex;
+        align-items: center;
+
+        &--up {
+          color: #6BEBA4;
+        }
+
+        &--down {
+          color: #F52525;
+        }
+
+        svg {
+          color: inherit;
+        }
+      }
+
+      &-percent {
+        color: inherit;
+        font-family: v.$fontMedium;
+        font-size: 15.29px;
+      }
+
+      &-timedate {
+        font-family: v.$fontRegular;
+        font-size: 12.3px;
+        color: #D1D1D1;
+      }
+
+      &-graph {
+        display: grid;
+        place-items: center;
+        flex: 1;
+
+        svg {
+          max-width: 100%;
+          width: unset;
+        }
+      }
+    }
+  }
+
   .products {
     &__links {
       position: relative;
