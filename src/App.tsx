@@ -38,6 +38,8 @@ function App() {
         <Route path='/admin' element={<Admin />} /> {/** Overview */}
         <Route path='/admin/product-list' element={<AdminProductList />} />
         <Route path='/admin/product' element={<AdminProduct />} />
+        <Route path='/admin/product/new' element={<AdminProduct />} />
+        <Route path='/admin/product/:id' element={<AdminProduct />} />
         <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
         <Route path='/admin/transaction' element={<AdminTransaction />} />
       </Routes>
