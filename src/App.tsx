@@ -8,6 +8,7 @@ import NewArrivals from './pages/collections/NewArrivals'
 import Brands from './pages/collections/Brands'
 import Cart from './pages/Cart'
 import User from './pages/User'
+import Product from './pages/Product'
 
 import Admin from './pages/admin/Overview'
 import AdminProductList from './pages/admin/ProductList'
@@ -43,7 +44,8 @@ function App() {
         <Route path='/brands' element={<Brands />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/user' element={<User />} />
-
+        <Route path='/product/:name' element={<Product />} />
+        
         {/* Protected Routes */}
         <Route path='/admin' element={<Admin />} /> {/** Overview */}
         <Route path='/admin/product-list' element={<AdminProductList />} />

@@ -1,3 +1,5 @@
+import Stars from "./Stars";
+
 interface Reviews {
   name: string;
   message: string;
@@ -45,7 +47,9 @@ export default function Collection(props: CollectionProps) {
                   <img src={i.images[0]} alt="" className='collection__product-img'/>
                   <p className="collection__product-title">{i.title}</p>
                   <div className="collection__ratings">
-                    <div className="collection__ratings-stars"></div>
+                    <div className="collection__ratings-stars">
+                      <Stars rating_count={Math.floor(Math.random() * (5 - 3) + 1) + 3} />
+                    </div>
                     <span className="collection__ratings-count">4.5/5</span>
                   </div>
                   <p className="collection__price">&dollar;{i.current_price}</p>

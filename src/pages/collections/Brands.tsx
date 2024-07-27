@@ -5,6 +5,7 @@ import Nav from "../../components/Nav";
 import productImgTest from '../../assets/product-img-1.png'
 import Stars from "../../components/Stars";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Brands() {
   const [filterMobState, setFilterMobState] = useState(false) 
@@ -228,7 +229,7 @@ export default function Brands() {
             <div className="collections__products">
               <div className="collections__product">
                 <img src={productImgTest} alt="" className='collections__product-img'/>
-                <p className="collections__product-title">test</p>
+                <Link to="/product/ta so" className="collections__product-title">test</Link>
                 <div className="collections__ratings">
                   {/* <div className="collections__ratings-stars">
 
