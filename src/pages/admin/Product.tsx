@@ -1,8 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, ChangeEvent } from "react";
 import SubmitBtn from "../../components/admin/Product/Submit";
-// import { useEffect } from "react";
 
 interface ProductState {
   id: number,
@@ -16,10 +15,11 @@ interface ProductState {
 }
 
 export default function Product() {
+  const media = useRef(null)
   const params = useParams<{id: string}>();
   const param: number | null = params.id ? parseInt(params.id) : null;
 
-  const [prevProduct,setPrevProduct] = useState<ProductState>({})
+  const [prevProduct,setPrevProduct] = useState<ProductState | null>(null)
 
   const [productName, setProductName] = useState('')
   const [productDescription, setProductDescription] = useState('')
@@ -142,7 +142,14 @@ export default function Product() {
     setProductSummary(value)
   }
 
-  async function imageHandler(value: any) {
+  function fileHandler(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault()
+    imageHandler(e.target.files);
+  }
+
+  async function imageHandler(files: FileList | null) {
+    if (!files) return console.log('file is empty')
+    
     // console.log(value)
     // console.log(value.files)
     // const { name, size, type } = value.files[0]
@@ -150,50 +157,51 @@ export default function Product() {
     // We'll store the files in this data transfer object
     // const dataTransfer = new DataTransfer();
 
-    const compressedImage = await compressImage(value.files[0], {
-      // 0: is maximum compression
-      // 1: is no compression
-      quality: 0.5,
+    // const compressedImage = await compressImage(value.files[0], {
+    //   // 0: is maximum compression
+    //   // 1: is no compression
+    //   quality: 0.5,
 
-      // We want a JPEG file
-      type: 'image/jpeg',
-    })
+    //   // We want a JPEG file
+    //   type: 'image/jpeg',
+    // })
 
     // dataTransfer.items.add(compressedImage);
     // console.log(compressedImage)
     // console.log(dataTransfer.files)
     // console.log(compressedImage)
     // console.log(value.files[0])
-    setImages(compressedImage)
+    // setImages(compressedImage)
+    setImages(URL.createObjectURL(files[0]))
   }
 
-  const compressImage = async (file: any, { quality = 1, type = file.type }) => {
-    // Get as image data
-    const imageBitmap = await createImageBitmap(file);
+  // const compressImage = async (file: any, { quality = 1, type = file.type }) => {
+  //   // Get as image data
+  //   const imageBitmap = await createImageBitmap(file);
 
-    // Draw to canvas
-    const canvas = document.createElement('canvas');
-    canvas.width = imageBitmap.width;
-    canvas.height = imageBitmap.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(imageBitmap, 0, 0);
+  //   // Draw to canvas
+  //   const canvas = document.createElement('canvas');
+  //   canvas.width = imageBitmap.width;
+  //   canvas.height = imageBitmap.height;
+  //   const ctx = canvas.getContext('2d');
+  //   ctx.drawImage(imageBitmap, 0, 0);
 
-    // Turn into Blob
-    const blob = await new Promise((resolve) =>
-      canvas.toBlob(resolve, type, quality)
-    );
+  //   // Turn into Blob
+  //   const blob = await new Promise((resolve) =>
+  //     canvas.toBlob(resolve, type, quality)
+  //   );
 
-    // Turn Blob into File
-    // return new File([blob], file.name, {
-    //   type: blob.type,
-    // });
+  //   // Turn Blob into File
+  //   // return new File([blob], file.name, {
+  //   //   type: blob.type,
+  //   // });
 
-    const newImageSize = new File([blob], file.name, {
-      type: blob.type,
-    });
+  //   const newImageSize = new File([blob], file.name, {
+  //     type: blob.type,
+  //   });
 
-    return URL.createObjectURL(newImageSize)
-  };
+  //   return URL.createObjectURL(newImageSize)
+  // };
 
   function stockHandler(value: string) {
     setProductStock(parseInt(value))
@@ -211,6 +219,7 @@ export default function Product() {
     return (
       param !== null ?
       ( 
+        prevProduct &&
         prevProduct.name === productName && 
         prevProduct.description === productDescription &&
         prevProduct.summary === productSummary && 
@@ -284,9 +293,9 @@ export default function Product() {
 
           <div className="form__field">
             <span>Media</span>
-            <div className="form__field-media">
+            <div className="form__field-media" ref={media}>
               <label>
-                <input onChange={e => imageHandler(e.target)} type="file" name="image" id="image" multiple accept="image/png, image/jpeg, image/webp, image/avif"></input>
+                <input onChange={fileHandler} type="file" name="image" id="image" multiple accept="image/png, image/jpeg, image/webp, image/avif"></input>
               </label>
               {/* <div className="form__field-img">&nbsp;</div>
               <div className="form__field-img">&nbsp;</div>
