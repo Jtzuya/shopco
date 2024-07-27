@@ -702,7 +702,7 @@
       max-width: 407px;
       
       &--stretched {
-        max-width: 684px;
+        max-width: calc(100% - 407px - 20px);
       }
     }
 
