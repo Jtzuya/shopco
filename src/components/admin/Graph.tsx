@@ -11,6 +11,8 @@ interface LinePlotProps {
   marginLeft?: number;
 }
 
+// https://stackoverflow.com/questions/27026625/how-to-change-line-color-in-d3js-according-to-axis-value
+
 const LinePlot: React.FC<LinePlotProps> = ({
   data = [0, 0],
   width = 103.77,
