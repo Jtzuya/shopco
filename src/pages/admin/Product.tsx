@@ -1,11 +1,103 @@
 import { useParams, Link } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
+import { useEffect, useState } from "react";
+import SubmitBtn from "../../components/admin/Product/Submit";
 // import { useEffect } from "react";
 
+interface ProductState {
+  id: number,
+  name: string,
+  description: string,
+  summary: string,
+  stock: number,
+  current_price: number,
+  old_price: number,
+  created_at: Date,
+}
+
 export default function Product() {
-  const params = useParams();
-  const param = 'id' in params ? params : null
-  console.log(param)
+  const params = useParams<{id: string}>();
+  const param: number | null = params.id ? parseInt(params.id) : null;
+
+  const [prevProduct,setPrevProduct] = useState<ProductState>({})
+
+  const [productName, setProductName] = useState('')
+  const [productDescription, setProductDescription] = useState('')
+  const [productSummary, setProductSummary] = useState('')
+  const [productStock, setProductStock] = useState(0)
+  const [productOldPrice, setProductOldPrice] = useState(0)
+  const [productCurrentPrice, setProductCurrentPrice] = useState(0)
+  
+  const [images,setImages] = useState('') // should be an array
+
+  useEffect(() => {
+    async function getProduct(id: number) {
+      const endpoint = new URL(`/get-product/${id}`, 'http://localhost:3001')
+      
+      try {
+        const request = await fetch(endpoint, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (!request.ok) throw new Error('failed to grab data')
+
+        const { data } = await request.json()
+
+
+        // caching mechanism
+        const previousProductsHash = window.localStorage.getItem('products_hash')
+        if (previousProductsHash != null) {
+          const parsedPreviousProductsHash = JSON.parse(previousProductsHash)
+
+          // Enforce check product inside prev product hash due to react's behavior
+          if (!parsedPreviousProductsHash[id]) {
+            const freshProductsHash = { ...parsedPreviousProductsHash, [id]: data[0]}
+            localStorage.setItem('products_hash', JSON.stringify(freshProductsHash))
+          }
+        } else {
+          localStorage.setItem('products_hash', JSON.stringify({
+            [id]: data[0]  
+          }))
+        }
+
+        setPrevProduct(data[0])
+        setProductName(data[0].name)
+        setProductDescription(data[0].description)
+        setProductSummary(data[0].summary)
+        setProductStock(data[0].stock)
+        setProductOldPrice(data[0].old_price)
+        setProductCurrentPrice(data[0].current_price)
+      } catch (error) {
+        return error
+      }
+    }
+
+    if (param != null) {
+      const productHash = window.localStorage.getItem('products_hash')
+      if (productHash) {
+        const _product = JSON.parse(productHash)
+        if (_product[param]) {
+          console.log('cache')
+          setPrevProduct(_product[param])
+          setProductName(_product[param].name)
+          setProductDescription(_product[param].description)
+          setProductSummary(_product[param].summary)
+          setProductStock(_product[param].stock)
+          setProductOldPrice(_product[param].old_price)
+          setProductCurrentPrice(_product[param].current_price)
+        } else {
+          console.log('db')
+          getProduct(param)
+        }
+      } else {
+        console.log('db')
+        getProduct(param)
+      }
+    }
+  }, [param])
 
   // useEffect(() => {
   //   const handleKeyDown = (event) => {
@@ -38,6 +130,123 @@ export default function Product() {
   // TODO: if param is null. It is to create a new product
   // TODO: if param has value. get grab id and it only updates the data of that product
 
+  function nameHandler(value: string) {
+    setProductName(value)
+  }
+
+  function descritionHandler(value: string) {
+    setProductDescription(value)
+  }
+
+  function summaryHandler(value: string) {
+    setProductSummary(value)
+  }
+
+  async function imageHandler(value: any) {
+    // console.log(value)
+    // console.log(value.files)
+    // const { name, size, type } = value.files[0]
+
+    // We'll store the files in this data transfer object
+    // const dataTransfer = new DataTransfer();
+
+    const compressedImage = await compressImage(value.files[0], {
+      // 0: is maximum compression
+      // 1: is no compression
+      quality: 0.5,
+
+      // We want a JPEG file
+      type: 'image/jpeg',
+    })
+
+    // dataTransfer.items.add(compressedImage);
+    // console.log(compressedImage)
+    // console.log(dataTransfer.files)
+    // console.log(compressedImage)
+    // console.log(value.files[0])
+    setImages(compressedImage)
+  }
+
+  const compressImage = async (file: any, { quality = 1, type = file.type }) => {
+    // Get as image data
+    const imageBitmap = await createImageBitmap(file);
+
+    // Draw to canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = imageBitmap.width;
+    canvas.height = imageBitmap.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(imageBitmap, 0, 0);
+
+    // Turn into Blob
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, type, quality)
+    );
+
+    // Turn Blob into File
+    // return new File([blob], file.name, {
+    //   type: blob.type,
+    // });
+
+    const newImageSize = new File([blob], file.name, {
+      type: blob.type,
+    });
+
+    return URL.createObjectURL(newImageSize)
+  };
+
+  function stockHandler(value: string) {
+    setProductStock(parseInt(value))
+  }
+
+  function currentPriceHandler(value: string) {
+    setProductCurrentPrice(parseInt(value))
+  }
+
+  function OldPriceHandler(value: string) {
+    setProductOldPrice(parseInt(value))
+  }
+
+  function renderSubmitBtn() {
+    return (
+      param !== null ?
+      ( 
+        prevProduct.name === productName && 
+        prevProduct.description === productDescription &&
+        prevProduct.summary === productSummary && 
+        prevProduct.stock === productStock && 
+        prevProduct.current_price === productCurrentPrice && 
+        prevProduct.old_price === productOldPrice ? '' : <SubmitBtn value="update" />
+      ) 
+      : 
+      ( 
+        productName === '' && 
+        productDescription === '' &&
+        productSummary === '' && 
+        productStock === 0 && 
+        productCurrentPrice === 0 && 
+        productOldPrice === 0 ? '' : <SubmitBtn value="create" />
+      )
+    )
+  }
+
+  // async function formHandler(event: { preventDefault: () => void; }) {
+  //   event.preventDefault()
+  //   if(prevProduct === null) return;
+
+  //   let changes = 0
+
+  //   if (prevProduct.name !== productName) changes++
+  //   if (prevProduct.description !== productDescription) changes++
+  //   if (prevProduct.summary !== productSummary) changes++
+  //   if (prevProduct.stock !== productStock) changes++
+  //   if (prevProduct.old_price !== productOldPrice) changes++
+  //   if (prevProduct.current_price !== productCurrentPrice) changes++
+
+  //   if (changes === 0) return
+  //   alert('there are changes!')
+  // }
+
   return (
     <div className="admin">
       <Sidebar currentPage="product" />
@@ -51,58 +260,81 @@ export default function Product() {
           <span>Go back</span>
         </Link>
 
-        <form action="#" className="form">
+        <div className="form">
           <div className="form__field">
             <span>Name</span>
             <label>
-              <input type="text" name="name" id="name" placeholder="Lorem ipsum dolor sit amet"/>
+              <input type="text" name="name" id="name" value={ productName } onChange={e => nameHandler(e.target.value)} placeholder="Lorem ipsum dolor sit amet"/>
             </label>
           </div>
 
           <div className="form__field">
             <span>Details</span>
             <label>
-              <textarea name="description" id="description" placeholder="Lorem ipsum dolor sit amet."></textarea>
+              <textarea name="description" id="description" value={ productDescription ? productDescription : ''} onChange={e => descritionHandler(e.target.value)} placeholder="Lorem ipsum dolor sit amet.">``</textarea>
             </label>
           </div>
 
           <div className="form__field">
             <span>Summary</span>
             <label>
-              <input type="text" name="summary" id="summary" placeholder="Lorem ipsum dolor sit amet."></input>
+              <input type="text" name="summary" id="summary" value={ productSummary } onChange={e => summaryHandler(e.target.value)} placeholder="Lorem ipsum dolor sit amet."></input>
             </label>
           </div>
 
           <div className="form__field">
             <span>Media</span>
-            <label>
-              <input type="file" name="image" id="image" multiple accept="image/png, image/jpeg, image/webp, image/avif"></input>
-            </label>
+            <div className="form__field-media">
+              <label>
+                <input onChange={e => imageHandler(e.target)} type="file" name="image" id="image" multiple accept="image/png, image/jpeg, image/webp, image/avif"></input>
+              </label>
+              {/* <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div>
+              <div className="form__field-img">&nbsp;</div> */}
+            </div>
           </div>
 
           <div className="form__group">
             <div className="form__field">
               <span>Stock</span>
               <label>
-                <input type="text" name="stock" id="stock" placeholder="10"></input>
+                <input type="number" maxLength={999999} value={productStock ? productStock : 0} onChange={e => stockHandler(e.target.value)} name="stock" id="stock" placeholder="10"></input>
               </label>
             </div>
 
             <div className="form__field">
               <span>Current Price</span>
               <label>
-                <input type="text" name="current_price" id="current_price" placeholder="$2.99"></input>
+                <input type="number" maxLength={999999} value={productCurrentPrice ? productCurrentPrice : 0} onChange={e => currentPriceHandler(e.target.value)} name="current_price" id="current_price" placeholder="$2.99"></input>
               </label>
             </div>
 
             <div className="form__field">
               <span>Old Price</span>
               <label>
-                <input type="text" name="old_price" id="old_price" placeholder="$2.99"></input>
+                <input type="number" maxLength={999999} value={productOldPrice ? productOldPrice : 0} onChange={e => OldPriceHandler(e.target.value)} name="old_price" id="old_price" placeholder="$2.99"></input>
               </label>
             </div>
           </div>
-        </form>
+
+
+          { renderSubmitBtn() }
+
+          {
+            images != '' ? 
+            <img src={images} />
+            : ''
+          }
+        </div>
       </main>
     </div>
   )
