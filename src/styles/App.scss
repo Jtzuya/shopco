@@ -847,7 +847,7 @@
     gap: 4px;
 
     @include for-tablet {
-      margin: 0 auto 80px;
+      margin: 0 auto;
       max-width: calc(100% - 100px);
       padding: 24px 1rem;
     }
@@ -876,6 +876,82 @@
 
   &__icon {
     display: grid;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  @include for-tablet {
+    gap: 1rem;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: v.$fontMedium;
+    font-size: 12px;
+    // line-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid rgb(0 0 0 / 10%);
+    border-radius: 8px;
+    color: #000;
+    cursor: pointer;
+
+    @include for-tablet {
+      font-size: 14px;
+      padding: 8px 14px;
+    }
+    
+    svg {
+      width: 16px;
+
+      @include for-tablet {
+        width: 20px;
+      }
+    }
+  }
+
+  &__pages {
+    display: flex;
+    align-items: center;
+    
+    @include for-tablet {
+      gap: 2px;
+    }    
+  }
+
+  &__page {
+    font-family: v.$fontMedium;
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: rgb(0 0 0 / 50%);
+    cursor: pointer;
+    border: 1px solid rgb(0 0 0 / 0%);
+    transition: border 150ms ease;
+
+    @include for-tablet {
+      font-size: 14px;
+      width: 40px;
+      height: 40px;
+    }
+
+    &:not(&--active):hover {
+      border: 1px solid rgb(0 0 0 / 20%);
+    }
+
+    &--active {
+      background-color: rgb(0 0 0 / 6%);
+      color: #000;
+    }
   }
 }
 
@@ -1763,3 +1839,310 @@
     Collections Page Styles
   =======================
 */
+
+.collections {
+  &__wrapper {
+    padding: 0 1rem;
+    margin: 0 auto 50px;
+    display: flex;
+    gap: 20px;
+
+    @include for-tablet {
+      margin: 0 auto 80px;
+      max-width: calc(100% - 100px);
+    }
+    
+    @include for-macAir() {
+      max-width: calc(1440px - 200px);
+    }
+  }
+
+  &__sidebar {
+    position: fixed;
+    width: 100vw;
+    max-width: unset;
+    top: 101%;
+    left: 0;
+    background: #fff;
+    height: 100vh;
+    z-index: 10;
+    padding: 20px 1rem;
+    border-top: 1px solid rgba(0 0 0 / 10%);
+    border-radius: 20px 18px;
+    overflow: auto;
+    transition: top 500ms ease;
+    transition-delay: 200ms;
+
+    &--mob-active {
+      top: 93px;
+    }
+
+    &-backdrop {
+      background-color: rgba(0 0 0 / 20%);
+      position: fixed;
+      top: 101%;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      z-index: 5;
+      transition: top 300ms ease;
+
+      &--mob-active {
+        top: 0;
+      }
+
+      @include for-ipadPro {
+        overflow: unset;
+        display: none;
+      }
+    }
+    
+    @include for-ipadPro {
+      color: #000;
+      flex: 1;
+      width: 100%;
+      max-width: 295px;
+      padding: 20px 24px;
+      border: 1px solid rgba(0 0 0 / 10%);
+      height: max-content;
+      position: sticky;
+      top: 1rem;
+    }
+
+
+    &-item {
+      padding: 0 0 24px;
+      margin: 0 0 24px;
+      border-bottom: 1px solid rgba(0 0 0 / 10%);
+
+      &:last-of-type {
+        border-bottom: none;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    &-title {
+      font-family: v.$fontBoldSatoshi;
+      font-size: 20px;
+      color: #000;
+    }
+
+    &-icon {
+      display: grid;
+      cursor: pointer;
+    }
+
+    &-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      margin: 0 0 20px;
+
+      &:last-of-type {
+        margin: 0;
+      }
+
+      &-text {
+        font-family: v.$fontRegular;
+        color: rgba(0 0 0 / 60%);
+      }
+    }
+
+    &-colors {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(calc((100% / 7) - (15.5px)), 1fr));
+      gap: 15.5px;
+      padding: 20px 0 0;
+
+      @include for-ipadPro {
+        grid-template-columns: repeat(auto-fit, minmax(calc((100% / 5) - (15.5px)), 1fr));
+      }
+    }
+
+    &-color {
+      --bg-clr: transparent;
+      border: 1px solid rgb(0 0 0 / 20%);
+      border-radius: 100%;
+      aspect-ratio: 1;
+      background-color: var(--bg-clr);
+      cursor: not-allowed;
+      // cursor: pointer;
+    }
+
+    &-sizes {
+      display: flex;
+      padding: 20px 0 0;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    &-size {
+      font-family: v.$fontRegular;
+      font-size: 14px;
+      color: rgba(0 0 0 / 60%);
+      padding: 10px 24px;
+      border-radius: 62px;
+      background-color: #f0f0f0;
+
+      &--active {
+        background-color: #000;
+        color: #fff;
+      }
+    }
+
+    &-style {
+      padding: 20px 0 0;
+    }
+
+    &-apply {
+      font-family: v.$fontRegular;
+      font-size: 14px;
+      text-transform: capitalize;
+      display: inline-block;
+      border-radius: 62px;
+      background-color: #000;
+      color: #fff;
+      padding: 14.5px;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  button.collections__sidebar-icon {
+    border: none;
+    padding: 8px;
+    border-radius: 100%;
+    background-color: #F0F0F0;
+
+    &--mob {
+      background-color: transparent;
+      @include for-ipadPro {
+        display: none;
+      }
+    }
+
+    &--desktop {
+      display: none;
+
+      @include for-ipadPro {
+        display: grid;
+      }
+    }
+
+    @include for-ipadPro {
+      background-color: transparent;
+      padding: 0;
+    }
+  }
+
+  &__main {
+    flex: 1;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 16px;
+  }
+
+  &__heading {
+    font-family: v.$fontBoldSatoshi;
+    font-size: 24px;
+    color: #000;
+    
+    @include for-ipadPro {
+      font-size: 32px;
+    }
+  }
+
+  &__sort {
+    font-family: v.$fontRegular;
+    font-size: 14px;
+    color: rgba(0 0 0 / 60%);
+    display: flex;
+    gap: 12px;
+    flex: 1;
+
+    @include for-ipadPro {
+      flex: none;
+    }
+
+    span:last-of-type {
+      display: none;
+
+      @include for-ipadPro {
+        display: block;
+        font-size: 16px;
+      }
+    }
+
+    select {
+      margin: 0 0 0 12px;
+      font-family: v.$fontMedium;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      color: #000;
+    }
+  }
+
+  &__products {
+    margin: 0 0 36px;
+    padding: 0 0 32px;
+    border-bottom: 1px solid rgb(0 0 0 / 10%);
+    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(calc(295px - 2rem), 1fr)); /* reduced max-width based on container's padding */
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__product {
+    text-align: left;
+    color: #000;
+    // flex: 1;
+    // min-width: 295px;
+
+    &-img {
+      border-radius: 20px;
+      width: 100%;
+      object-fit: cover;
+      aspect-ratio: 1;
+      margin: 0 0 16px;
+    }
+
+    &-title {
+      font-family: v.$fontBoldSatoshi;
+      font-size: 20px;
+      color: inherit;
+      margin: 0 0 8px;
+    }
+  }
+
+  &__ratings {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0 0 8px;
+  }
+
+  &__price {
+    font-family: v.$fontBoldSatoshi;
+    color: inherit;
+    font-size: 24px;
+  }
+}
