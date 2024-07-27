@@ -1578,6 +1578,7 @@
     padding: 40px;
 
     &__backlink {
+      width: max-content;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -1635,6 +1636,11 @@
             resize: none;
           }
 
+          textarea {
+            min-height: 150px;
+            max-height: 300px;
+          }
+
           input[type="file"] {
             height: 150px;
             border-radius: 6px;
@@ -1642,6 +1648,21 @@
             background-color: transparent;
             color: #fff;
           }
+        }
+
+        &-submit {
+          display: block;
+          width: 100%;
+          padding: 8px 24px;
+          text-transform: capitalize;
+          background: #fff;
+          background: linear-gradient(to right, #92FE9D 0%, #00C9FF 100%);
+          color: #000;
+          border: none;
+          border-radius: 2px;
+          font-family: v.$fontBold;
+          letter-spacing: .5px;
+          cursor: pointer;
         }
       }
     }
