@@ -42,14 +42,14 @@ export default function Collection(props: CollectionProps) {
             data.map((i, idx) => {
               return (
                 <div key={idx} className="collection__product">
-                <img src={i.images[0]} alt="" className='collection__product-img'/>
-                <p className="collection__product-title">{i.title}</p>
-                <div className="collection__ratings">
-                  <div className="collection__ratings-stars"></div>
-                  <span className="collection__ratings-count">4.5/5</span>
+                  <img src={i.images[0]} alt="" className='collection__product-img'/>
+                  <p className="collection__product-title">{i.title}</p>
+                  <div className="collection__ratings">
+                    <div className="collection__ratings-stars"></div>
+                    <span className="collection__ratings-count">4.5/5</span>
+                  </div>
+                  <p className="collection__price">&dollar;{i.current_price}</p>
                 </div>
-                <p className="collection__price">{i.current_price}</p>
-              </div>    
               )
             })
           }
