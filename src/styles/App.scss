@@ -1686,6 +1686,7 @@
               height: 100%;
               background-color: transparent;
               height: 100%!important;
+              appearance: none;
             }
           }
         }
@@ -1696,6 +1697,17 @@
           border-radius: 6px;
           border: .25px solid rgb(254 254 254 / 10%);
           aspect-ratio: 1;
+          position: relative;
+          overflow: hidden;
+
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+          }
 
           &:first-of-type {
             grid-column: 1 / span 2;

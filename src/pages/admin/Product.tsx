@@ -1,7 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
 import { useEffect, useRef, useState, ChangeEvent } from "react";
+// import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import SubmitBtn from "../../components/admin/Product/Submit";
+import ProductImage from "../../components/admin/ProductImage";
 
 interface ProductState {
   id: number,
@@ -15,7 +18,7 @@ interface ProductState {
 }
 
 export default function Product() {
-  const media = useRef(null)
+  const media = useRef<HTMLDivElement>(null)
   const params = useParams<{id: string}>();
   const param: number | null = params.id ? parseInt(params.id) : null;
 
@@ -28,7 +31,7 @@ export default function Product() {
   const [productOldPrice, setProductOldPrice] = useState(0)
   const [productCurrentPrice, setProductCurrentPrice] = useState(0)
   
-  const [images,setImages] = useState('') // should be an array
+  const [images, setImages] = useState<string[]>([]) // should be an array
 
   useEffect(() => {
     async function getProduct(id: number) {
@@ -99,32 +102,30 @@ export default function Product() {
     }
   }, [param])
 
-  // useEffect(() => {
-  //   const handleKeyDown = (event) => {
-  //     if (event.ctrlKey && event.key === 'r') {
-  //       event.preventDefault(); // Prevent the default refresh action
-  //       // Use prompt to display a confirmation message
-  //       const userResponse = window.confirm('Data will be removed. Are you sure?');
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'r') {
+        event.preventDefault(); // Prevent the default refresh action
+        // Use prompt to display a confirmation message
+        const userResponse = window.confirm('Data will be removed. Are you sure?');
         
-  //       if (userResponse) {
-  //         // User clicked "OK"
-  //         console.log('User confirmed');
-  //         window.location.reload()
-  //       } else {
-  //         // User clicked "Cancel"
-  //         console.log('User canceled');
-  //       }
-  //     }
-  //   };
+        if (userResponse) {
+          // User clicked "OK"
+          window.location.reload()
+        } else {
+          // User clicked "Cancel"
+        }
+      }
+    };
 
-  //   // Add the event listener for keydown
-  //   window.addEventListener('keydown', handleKeyDown);
+    // Add the event listener for keydown
+    window.addEventListener('keydown', handleKeyDown);
 
-  //   // Cleanup the event listener when the component is unmounted
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown);
-  //   };
-  // }, []);
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // debugger
   // TODO: if param is null. It is to create a new product
@@ -148,60 +149,103 @@ export default function Product() {
   }
 
   async function imageHandler(files: FileList | null) {
-    if (!files) return console.log('file is empty')
+    if (!files) {
+      return 'file is empty'
+      console.log(images) // just to ignore the images state atm
+    }
     
-    // console.log(value)
-    // console.log(value.files)
     // const { name, size, type } = value.files[0]
 
     // We'll store the files in this data transfer object
     // const dataTransfer = new DataTransfer();
 
-    // const compressedImage = await compressImage(value.files[0], {
-    //   // 0: is maximum compression
-    //   // 1: is no compression
-    //   quality: 0.5,
-
-    //   // We want a JPEG file
-    //   type: 'image/jpeg',
-    // })
-
     // dataTransfer.items.add(compressedImage);
-    // console.log(compressedImage)
-    // console.log(dataTransfer.files)
-    // console.log(compressedImage)
-    // console.log(value.files[0])
     // setImages(compressedImage)
-    setImages(URL.createObjectURL(files[0]))
+    let size = 0
+
+    const newImageArr: string[] = []
+    for (const file of files) {
+      size += file.size
+      try {
+        const compressedImageData = await compressImage(file, {
+          quality: 0.5, // compression 0 ~ 1. 1 is no compression
+          type: 'image/webp', // image type to be converted
+        })
+        
+        if (compressedImageData) {
+          // throw new Error('failed')
+          const { blob, name, type } = compressedImageData
+  
+          const _ = new File([blob], name, { type: type })
+          const _image = URL.createObjectURL(_)
+          newImageArr.push(_image)          
+        }
+      } catch (error) {
+        console.log('image failed to compress')
+        continue 
+      }
+    }
+
+    setImages(prev => [...prev, ...newImageArr])
+    // console.log(newImageArr)
+    console.log(size)
+
+    if (!media.current) return;
+
+    newImageArr.forEach(_image => {
+      console.log(_image)
+      const temp = document.createElement('div');
+      document.body.appendChild(temp)
+      const root = createRoot(temp)
+  
+      root.render(<ProductImage src={_image} />)
+  
+      // Wait for the component to render
+      setTimeout(() => {
+        if (media.current) {
+          while (temp.firstChild) {
+            media.current.appendChild(temp.firstChild);
+          }
+        }
+        // Clean up the temporary container
+        document.body.removeChild(temp);
+      }, 500);
+    })
+
   }
 
-  // const compressImage = async (file: any, { quality = 1, type = file.type }) => {
-  //   // Get as image data
-  //   const imageBitmap = await createImageBitmap(file);
+  async function compressImage (file: File, options:{ quality: number, type: string }) {
+    const { quality = 1, type = file.type } = options;
 
-  //   // Draw to canvas
-  //   const canvas = document.createElement('canvas');
-  //   canvas.width = imageBitmap.width;
-  //   canvas.height = imageBitmap.height;
-  //   const ctx = canvas.getContext('2d');
-  //   ctx.drawImage(imageBitmap, 0, 0);
+    // Get as image data
+    const imageBitmap = await createImageBitmap(file);
 
-  //   // Turn into Blob
-  //   const blob = await new Promise((resolve) =>
-  //     canvas.toBlob(resolve, type, quality)
-  //   );
+    // Draw to canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = imageBitmap.width;
+    canvas.height = imageBitmap.height;
+    const ctx = canvas.getContext('2d');
 
-  //   // Turn Blob into File
-  //   // return new File([blob], file.name, {
-  //   //   type: blob.type,
-  //   // });
+    if (ctx) {
+      ctx.drawImage(imageBitmap, 0, 0);
+    }
 
-  //   const newImageSize = new File([blob], file.name, {
-  //     type: blob.type,
-  //   });
+    // Turn into Blob
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, type, quality)
+    );
 
-  //   return URL.createObjectURL(newImageSize)
-  // };
+    if (!blob) {
+      return null
+    }
+
+    // Turn Blob into File
+    return {
+      blob,
+      name: file.name,
+      type: blob.type
+    } 
+  }
 
   function stockHandler(value: string) {
     setProductStock(parseInt(value))
@@ -297,18 +341,6 @@ export default function Product() {
               <label>
                 <input onChange={fileHandler} type="file" name="image" id="image" multiple accept="image/png, image/jpeg, image/webp, image/avif"></input>
               </label>
-              {/* <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div>
-              <div className="form__field-img">&nbsp;</div> */}
             </div>
           </div>
 
@@ -335,14 +367,7 @@ export default function Product() {
             </div>
           </div>
 
-
           { renderSubmitBtn() }
-
-          {
-            images != '' ? 
-            <img src={images} />
-            : ''
-          }
         </div>
       </main>
     </div>
