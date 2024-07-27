@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import imgDesktop from '../assets/hero-img.png'
 
 export default function Hero() {
@@ -7,7 +8,7 @@ export default function Hero() {
         <div className="hero__content">
           <h1 className="hero__heading">Find Clothes that matches your style</h1>
           <p className="hero__sub">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style.</p>
-          <a href="/brands" className='hero__cta'>Shop Now</a>
+          <Link to="/brands" className='hero__cta'>Shop Now</Link>
           
           <div className="hero__stats">
             <div className="hero__stats__col">
