@@ -4,16 +4,22 @@ import Sidebar from "../../components/admin/Sidebar";
 import Table from "../../components/admin/Table";
 import { useEffect, useState } from "react";
 
+
 export default function ProductList() {
+  let serverOrigin = import.meta.env.REACT_APP_SERVER_DEVELOPMENT;
+  
+  if (import.meta.env.REACT_APP_NODE_ENV === 'production') {
+    serverOrigin = import.meta.env.REACT_APP_SERVER_PRODUCTION 
+  }
+  
   const [productsArr, setProductsArr] = useState(null)
-  const origin = window.origin
 
   useEffect(() => {
     // Pull data from db
     const products = window.localStorage.getItem('products_arr')
     
     async function getProducts() {
-      const endpoint = new URL('/get-products', 'http://localhost:3001')
+      const endpoint = new URL('/get-products', serverOrigin)
       
       try {
         const request = await fetch(endpoint, {
@@ -27,6 +33,7 @@ export default function ProductList() {
 
         const { data } = await request.json()
 
+        console.log('we get products from db')
         localStorage.setItem('products_arr', JSON.stringify(data))
         setProductsArr(data)
       } catch (error) {
@@ -35,7 +42,6 @@ export default function ProductList() {
     }
 
     if (!products) {
-      console.log('we get products from db')
       getProducts()
     } else {
       console.log('we got the products from localstorage')
@@ -49,7 +55,7 @@ export default function ProductList() {
       <main className="products">
         <Nav name='Products Dashboard' />
         <div className="products__links">
-          <Link to={`${origin}/admin/product/new`} className="products__create">Add product</Link>
+          <Link to={`/admin/product/new`} className="products__create">Add product</Link>
         </div>
 
         {
