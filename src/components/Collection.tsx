@@ -10,7 +10,7 @@ interface Reviews {
 
 interface Product {
   id: number;
-  name: string;
+  title: string;
   colors: string[];
   sizes: string[];
   category: string[];
@@ -46,7 +46,7 @@ export default function Collection(props: CollectionProps) {
               return (
                 <div key={idx} className="collection__product">
                   <img src={i.images[0]} alt="" className='collection__product-img'/>
-                  <p className="collection__product-name">{i.name}</p>
+                  <p className="collection__product-title">{i.title}</p>
                   <div className="collection__ratings">
                     <div className="collection__ratings-stars">
                       <Stars rating_count={Math.floor(Math.random() * (5 - 3) + 1) + 3} />
