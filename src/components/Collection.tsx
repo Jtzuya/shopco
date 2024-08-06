@@ -26,7 +26,6 @@ interface Product {
 interface CollectionProps {
   underline?: boolean;
   toCollection?: boolean;
-  name: string;
   title: string;
   data: Product[];
 }
