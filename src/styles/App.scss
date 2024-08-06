@@ -2879,16 +2879,24 @@
     &__main {
       display: flex;
       gap: 20px;
+      flex-direction: column;
+
+      @include for-macAir {
+        flex-direction: row;
+      }
     }
 
     &__products {
       flex: 1;
-      max-width: 715px;
       border: 1px solid rgb(0 0 0 / 10%);
       border-radius: 20px;
       padding: 20px 24px;
       align-items: center;
       height: max-content;
+
+      @include for-macAir {
+        max-width: 715px;
+      }
     }
 
     &__product {
@@ -3013,7 +3021,10 @@
       align-items: center;
       height: max-content;
       width: 100%;
-      max-width: 505px;
+
+      @include for-macAir {
+        max-width: 505px;
+      }
 
       &-title {
         font-family: v.$fontBoldSatoshi;
