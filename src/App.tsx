@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     const clearCache = setTimeout(() => {
       localStorage.clear();
-    }, 1000 * 60 * 5)
+    }, 1000 * 60 * 10) // clears cache every 10 minutes
 
     // Cleanup function to clear the timeout if the component unmounts
     return () => clearTimeout(clearCache)
@@ -51,7 +51,7 @@ function App() {
         <Route path='/admin/product-list' element={<AdminProductList />} />
         <Route path='/admin/product' element={<AdminProduct />} />
         <Route path='/admin/product/new' element={<AdminProduct />} />
-        <Route path='/admin/product/:id' element={<AdminProduct />} />
+        <Route path='/admin/product/:product_id' element={<AdminProduct />} />
         <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
         <Route path='/admin/transaction' element={<AdminTransaction />} />
       </Routes>

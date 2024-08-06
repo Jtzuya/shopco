@@ -7,6 +7,9 @@ import Stars from "../../components/Stars";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+// https://codepen.io/helev/pen/ZEEjqzG 
+
+
 export default function Brands() {
   const [filterMobState, setFilterMobState] = useState(false) 
   

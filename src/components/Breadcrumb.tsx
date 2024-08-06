@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function Breadcrumb() {
   const pathname = window.location.pathname
   const pathArr = pathname.split('/')
@@ -10,7 +12,7 @@ export default function Breadcrumb() {
           pathArr.map((path, idx) => {
             return(
               <div className="breadcrumb__group" key={idx}>
-                <span className="breadcrumb__text">{path}</span>
+                <Link to={path === 'home' ? '/' : pathname} className="breadcrumb__text">{path.split('%20').join(' ')}</Link>
                 {
                   idx === pathArr.length - 1 ? '' :
                     <svg className="breadcrumb__icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
