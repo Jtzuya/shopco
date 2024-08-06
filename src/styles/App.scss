@@ -558,9 +558,14 @@
   color: #000;
 
   &__wrapper {
+    overflow: auto;
     margin: 0 auto;
     padding: 50px 1rem 40px;
     text-align: center;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &--separator {
       border-bottom: 1px solid rgba(0 0 0 / 10%);
