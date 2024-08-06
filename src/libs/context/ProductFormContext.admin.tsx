@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { createContext, FC, ReactNode } from "react";
 
 type ImageType = {
   sort_order_id: number;

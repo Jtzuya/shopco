@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Collection from "../components/Collection"
+// import Collection from "../components/Collection"
 import Footer from "../components/Footer"
 // import Hero from "../components/Hero"
 // import Marquee from "../components/Marquee"
@@ -7,7 +7,7 @@ import Footer from "../components/Footer"
 import Nav from "../components/Nav"
 // import Review from "../components/Review"
 
-import casual from '../store/casual'
+// import casual from '../store/casual'
 import { server_origin } from "../env";
 import { useParams } from "react-router-dom";
 import butter from "../libs/helper/butter";
@@ -19,7 +19,7 @@ import Price from "../components/admin/Price";
 // import formal from '../store/formal'
 
 import prodImg from '../assets/product-img-1.png'
-import Review from "../components/Review";
+// import Review from "../components/Review";
 
 type Reviews = {
   name: string;
@@ -50,19 +50,19 @@ type Product = {
   reviews?: Reviews[];
 }
 
-type ProductCollection = {
-  id: number;
-  name: string;
-  colors: string[];
-  sizes: string[];
-  category: string[];
-  details: string;
-  product_summary: string;
-  images: string[];
-  current_price: number;
-  stock: number;
-  reviews: Reviews[];
-}
+// type ProductCollection = {
+//   id: number;
+//   name: string;
+//   colors: string[];
+//   sizes: string[];
+//   category: string[];
+//   details: string;
+//   product_summary: string;
+//   images: string[];
+//   current_price: number;
+//   stock: number;
+//   reviews: Reviews[];
+// }
 
 export default function Product() {
   const params = useParams()

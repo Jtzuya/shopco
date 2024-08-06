@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import shortUID from 'short-unique-id';
 
 import { ProductContext } from "../../libs/context/ProductContext";
@@ -134,7 +134,7 @@ export default function Product() {
       const { data } = await productSaveRequest.json()
 
       if (!productSaveRequest.ok) throw new Error(`failed to save the product changes`)      
-      const { images, errors } = data
+      const { images } = data
 
       // These are images that aren't saved in the s3 bucket
       if (product.files && product.files.length > 0) {

@@ -3,7 +3,7 @@ import GetErrorMessage from "../helpers/GetErrorMessage";
 import short from 'short-unique-id'
 import Compressor from "compressorjs";
 import { useProductContext } from "../libs/context/ProductContext";
-import { FileExtended, Image } from "../types/Image";
+import { Image } from "../types/Image";
 
 // Best approach for this component
 // Serve an image that is not yet stored in the bucket. So it would be a Blob URL
@@ -38,7 +38,7 @@ export default function ImageUpload(props: ImageUpload) {
   const [isLoading, isSetLoading]             = useState(true)
   const [draggedItem, setDraggedItem]         = useState<number | null>(null);
   const [draggedOverItem, setDraggedOverItem] = useState<number | null>(null);
-  const { product, productRecord, setProduct }               = useProductContext();
+  const { product, setProduct }               = useProductContext();
   const upload                                = useRef<HTMLInputElement>(null);
   const media                                 = useRef<HTMLDivElement>(null);
 
