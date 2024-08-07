@@ -1822,6 +1822,7 @@
         display: flex;
         flex-direction: column;
         gap: .5rem;
+        position: relative;
 
         span,
         p {
@@ -1831,7 +1832,10 @@
 
         label {
           display: block;
-          margin: 0 0 14px;
+
+          &:not([data-margin="false"]) {
+            margin: 0 0 14px;
+          }
 
           svg {
             display: none;
@@ -1974,6 +1978,154 @@
 
         .form__field-img:hover .form__field-img-delete {
           opacity: 1;
+        }
+      }
+
+      &__field-existing-selections {
+        padding: 8px 6px;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #adabab;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        width: 100%;    
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 100ms ease-in-out;
+
+        &--active {
+          top: 4.5rem;
+          pointer-events: auto;
+          z-index: 5;
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      &__field-existing-selection {
+        display: flex;
+        align-items: center;
+        gap: .25rem;
+        // max-width: max-content;
+        position: relative;
+        padding: .5rem .75rem;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: #dfd8d8;
+        }
+
+        &-virtual-checkbox {
+          margin: 0!important;
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          z-index: 10;
+          cursor: pointer;
+        
+        }
+
+        &-checkbox {
+          color: #fff;
+          // background: #000;
+          border: 1px solid #2c2c2c;
+          border-radius: 2px;
+          display: grid;
+          place-items: center;
+          height: 18px;
+          width: 18px;
+        }
+
+        [data-checked-state="true"] ~ .form__field-existing-selection-checkbox {
+          background-color: #000;
+        }
+
+        [data-checked-state="true"] ~ span svg path {
+          fill: transparent; /* Use current color for fill */
+          stroke: currentColor; /* Use current color for stroke */
+          stroke-width: 1; /* Width of the stroke */
+          stroke-dasharray: 1000; /* Large number to cover full length of path */
+          stroke-dashoffset: 1000; /* Start position of dash offset */
+          animation: draw 1s linear forwards; /* Animations */
+        }
+
+        svg {
+          width: 10px;
+          height: 10px;
+        }
+
+        svg path {
+          fill: transparent;
+        }
+
+        &-text {
+          color: #000;
+        }
+
+        &-hide {
+          display: grid;
+          background-color: transparent;
+          border: none;
+          font-family: v.$fontBold!important;
+          font-size: .75rem;
+          letter-spacing: 1px;
+          text-align: center;
+          width: 100%;
+          color: crimson;
+          padding: .5rem;
+          cursor: pointer;
+          border-radius: 4px;
+
+          &:hover {
+            background-color: rgb(134, 132, 132);
+            color: white;
+          }
+        }
+      }
+
+      &__field-selected {
+        display: flex;
+        gap: .25rem;
+        flex-wrap: wrap;
+
+        &__item {
+          padding: .15rem .15rem .15rem .5rem;
+          border-radius: 2px;
+          background-color: #d4d4d4;
+          width: max-content;
+          display: flex;
+          align-items: center;
+          gap: .35rem;
+
+          a {
+            font-family: v.$fontRegular;
+            font-size: 12px;
+            color: #000;
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          button {
+            background-color: transparent;
+            border: none;
+            width: 20px;
+            display: grid;
+            cursor: pointer;
+            border-radius: 100%;
+            transition: background 150ms ease-in-out;
+
+            &:hover {
+              background: #484848;
+            }
+          }
         }
       }
 
@@ -3201,5 +3353,27 @@
   }
   to {
     background-position: 1000px 0;
+  }
+}
+
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 1000; /* Reveal the stroke path */
+  }
+
+  35% {
+    stroke-dashoffset: 800;
+    fill: currentColor;
+  }
+
+  80% {
+    stroke-dashoffset: 400;
+    fill: currentColor;
+  }
+  
+  100% {
+    stroke-dashoffset: 0;
+    fill: currentColor;
+    stroke-width: 0;
   }
 }
