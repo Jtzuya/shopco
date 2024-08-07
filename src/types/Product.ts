@@ -1,9 +1,12 @@
 import { Image } from "./Image"
 
-export type Product = {
-  id              : number;
-  product_id      : string; 
-  name            : string; 
+export type T = {
+  id          : number;
+  name        : string;
+  product_id  : string;
+}
+
+export type Product = T & {
   description     : string; 
   summary         : string; 
   stock           : number; 
@@ -11,15 +14,13 @@ export type Product = {
   old_price       : number;
   images          : Image[] | [];
   files           : File[]  | [];
-  created_at     ?: Date;
+
+  collection      : T[] | [];
+  colors          : T[] | [];
+  sizes           : T[] | [];
 }
 
-export type Table = {
-  id: number;
-  product_id: string;
-  stock: number;
-  name: string;
-}
+export type Table = T & { stock: number }
 
 export type Form = {
   id            ?: number;
@@ -30,7 +31,11 @@ export type Form = {
   stock         ?: number;
   current_price ?: number;
   old_price     ?: number;
-  images        ?: Image[]
+  images        ?: Image[];
+
+  collection    ?: T[] | [];
+  colors        ?: T[] | [];
+  sizes         ?: T[] | [];
 }
 
 export type Deform = {
