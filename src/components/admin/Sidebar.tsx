@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import SidebarLink from './SidebarLink';
 
 interface Sidebar {
   currentPage: string;
@@ -22,31 +23,10 @@ export default function Sidebar(props: Sidebar) {
 
         <ul className="sidebar__menus">
           <h3 className="sidebar__menus-title">Menu</h3>
-          <Link to="/admin" className={`sidebar__menus-link ${currentPage === 'admin' ? 'sidebar__menus-link--active' : ''}`}>
-            <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.07954 3.08339L3.47668 6.67004C2.70811 7.26781 2.08472 8.54021 2.08472 9.50519V15.8331C2.08472 17.8143 3.69871 19.4368 5.6799 19.4368H15.5688C17.55 19.4368 19.164 17.8143 19.164 15.8416V9.62475C19.164 8.59145 18.4723 7.26781 17.6268 6.67858L12.3494 2.98092C11.1538 2.14403 9.23239 2.18673 8.07954 3.08339Z" stroke="currentColor" strokeWidth="1.53713" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M10.6244 16.0209V13.459" stroke="currentColor" strokeWidth="1.53713" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>Overview</span>
-          </Link>
-          <Link to="/admin/product-list" className={`sidebar__menus-link ${currentPage === 'product-list' || currentPage === 'product' ? 'sidebar__menus-link--active' : ''}`}>
-            <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19.164 7.91435V4.03736C19.164 2.83327 18.6174 2.34651 17.2596 2.34651H13.8096C12.4518 2.34651 11.9053 2.83327 11.9053 4.03736V7.90581C11.9053 9.11844 12.4518 9.59666 13.8096 9.59666H17.2596C18.6174 9.6052 19.164 9.11844 19.164 7.91435Z" stroke="currentColor" strokeWidth="1.02476" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M19.164 17.5214V14.0714C19.164 12.7136 18.6174 12.1671 17.2596 12.1671H13.8096C12.4518 12.1671 11.9053 12.7136 11.9053 14.0714V17.5214C11.9053 18.8792 12.4518 19.4258 13.8096 19.4258H17.2596C18.6174 19.4258 19.164 18.8792 19.164 17.5214Z" stroke="currentColor" strokeWidth="1.02476" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M9.3434 7.91435V4.03736C9.3434 2.83327 8.79687 2.34651 7.43906 2.34651H3.98905C2.63125 2.34651 2.08472 2.83327 2.08472 4.03736V7.90581C2.08472 9.11844 2.63125 9.59666 3.98905 9.59666H7.43906C8.79687 9.6052 9.3434 9.11844 9.3434 7.91435Z" stroke="currentColor" strokeWidth="1.02476" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M9.3434 17.5214V14.0714C9.3434 12.7136 8.79687 12.1671 7.43906 12.1671H3.98905C2.63125 12.1671 2.08472 12.7136 2.08472 14.0714V17.5214C2.08472 18.8792 2.63125 19.4258 3.98905 19.4258H7.43906C8.79687 19.4258 9.3434 18.8792 9.3434 17.5214Z" stroke="currentColor" strokeWidth="1.02476" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>Products</span>
-          </Link>
-          <Link to="/admin/transaction-list" className={`sidebar__menus-link ${currentPage === 'transaction-list' || currentPage === 'transaction' ? 'sidebar__menus-link--active' : ''}`}>
-            <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.08472 7.88193H19.164" stroke="currentColor" strokeWidth="1.02476" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5.50061 14.7136H7.20854" stroke="currentColor" strokeWidth="1.02476" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M9.34338 14.7136H12.7592" stroke="currentColor" strokeWidth="1.02476" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M5.87631 3.61212H15.3638C18.4039 3.61212 19.164 4.36361 19.164 7.36102V14.3721C19.164 17.3695 18.4039 18.121 15.3724 18.121H5.87631C2.84474 18.1295 2.08472 17.378 2.08472 14.3806V7.36102C2.08472 4.36361 2.84474 3.61212 5.87631 3.61212Z" stroke="currentColor" strokeWidth="1.02476" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>Transactions</span>
-          </Link>
+          <SidebarLink url="/admin" name='Overview' current={currentPage === 'admin' ? true : false} />
+          <SidebarLink url="/admin/product-list" name='Products' current={currentPage === 'product-list' ? true : false} />
+          <SidebarLink url="/admin/collection-list" name='Collections' current={currentPage === 'collection-list' ? true : false} />
+          <SidebarLink url="/admin/transaction-list" name='Transactions' current={currentPage === 'transaction-list' ? true : false} />
         </ul>
       </div>
     </nav>
