@@ -221,6 +221,9 @@ function temporaryProduct() {
     current_price: 0,
     old_price: 0,
     images: [],
-    files: []
+    files: [],
+    collection: [],
+    colors: [],
+    sizes: []
   }
 }
