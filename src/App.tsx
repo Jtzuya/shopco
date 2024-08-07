@@ -13,6 +13,8 @@ import Product from './pages/Product'
 import Admin from './pages/admin/Overview'
 import AdminProductList from './pages/admin/ProductList'
 import AdminProduct from './pages/admin/Product'
+import AdminCollectionList from './pages/admin/CollectionList'
+import AdminCollection from './pages/admin/Collection'
 import AdminTransactionList from './pages/admin/TransactionList'
 import AdminTransaction from './pages/admin/Transaction'
 
@@ -52,6 +54,9 @@ function App() {
         <Route path='/admin/product' element={<AdminProduct />} />
         <Route path='/admin/product/new' element={<AdminProduct />} />
         <Route path='/admin/product/:product_id' element={<AdminProduct />} />
+        <Route path='/admin/collection-list' element={<AdminCollectionList />} />
+        <Route path='/admin/collection/new' element={<AdminCollection />} />
+        <Route path='/admin/collection/:collection_id' element={<AdminCollection />} />
         <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
         <Route path='/admin/transaction' element={<AdminTransaction />} />
       </Routes>
