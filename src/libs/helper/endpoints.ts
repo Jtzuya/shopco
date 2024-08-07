@@ -9,4 +9,6 @@ export default class Endpoints {
   createNewProduct():                             URL { return new URL(`/api/new-product/`, server_origin) }
   updateProductById(id: string):                  URL { return new URL(`/api/update-product/${id}`, server_origin) }
   deleteProductById(product_id: string):          URL { return new URL(`/api/delete-product/${product_id}`, server_origin) }
+  
+  createNewCollection():                          URL { return new URL(`/api/new-collection`, server_origin) }
 }
