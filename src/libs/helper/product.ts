@@ -1,5 +1,5 @@
 import { Image } from "../../types/Image";
-import { Form, Product } from "../../types/Product";
+import { Form, Product, T } from "../../types/Product";
 
 /**
  * @param prev 
@@ -24,7 +24,9 @@ export function numberDataCheck(prev: number, curr: number): boolean {
  * @param curr 
  * @returns false is there are changes, true if it is unchanged
  */
-export function arrayDataCheck(prev: Image[], curr: Image[]): boolean {
+type ArrayDataCheck = Image[] | T[]
+
+export function arrayDataCheck(prev: ArrayDataCheck, curr: ArrayDataCheck): boolean {
   const sameLength = prev.length === curr.length ? true : false;
   
   // Possibly re-arranged
@@ -52,15 +54,18 @@ export function arrayDataCheck(prev: Image[], curr: Image[]): boolean {
 export function inventoryCompile(prev: Product, curr: Product, type: string | undefined = 'create') {
   // console.log(type)
   let form: Form = {
-    id: prev.id,
-    product_id: prev.product_id,
-    name: prev.name,
-    description: prev.description,
-    summary: prev.summary,
-    stock: prev.stock,
-    current_price: prev.current_price,
-    old_price: prev.old_price,
-    images: prev.images
+    id            : prev.id,
+    product_id    : prev.product_id,
+    name          : prev.name,
+    description   : prev.description,
+    summary       : prev.summary,
+    stock         : prev.stock,
+    current_price : prev.current_price,
+    old_price     : prev.old_price,
+    images        : prev.images,
+    collection    : prev.collection,
+    colors        : prev.colors,
+    sizes         : prev.sizes,
   }
 
   if (type === 'update') {
@@ -77,6 +82,9 @@ export function inventoryCompile(prev: Product, curr: Product, type: string | un
   if (numberDataCheck(prev.current_price, curr.current_price) === false) form.current_price = curr.current_price
   if (numberDataCheck(prev.old_price, curr.old_price) === false)         form.old_price     = curr.old_price
   if (arrayDataCheck(prev.images, curr.images) === false)                form.images        = curr.images
+  if (arrayDataCheck(prev.collection, curr.collection) === false)        form.collection    = curr.collection
+  if (arrayDataCheck(prev.colors, curr.colors) === false)                form.colors        = curr.colors
+  if (arrayDataCheck(prev.sizes, curr.sizes) === false)                  form.sizes         = curr.sizes
 
   return JSON.stringify(form)
   // return form
