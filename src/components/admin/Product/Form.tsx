@@ -10,6 +10,8 @@ import Input from './Fields/Input';
 import Textarea from './Fields/Textarea';
 import { useNavigate } from 'react-router-dom';
 import GetErrorMessage from '../../../helpers/GetErrorMessage';
+import GroupedInput from './Fields/GroupedInput';
+import VariantInput from './Fields/VariantInput';
 
 export default function Form(props: FormHandler) {
   const navigate = useNavigate();
@@ -91,7 +93,7 @@ export default function Form(props: FormHandler) {
             type='text'
             name='stock'
             id='stock'
-            placeholder='$29.99'
+            placeholder='999'
             pkey='stock'
             dynamic={product.id ? true : false}
           />
@@ -114,6 +116,37 @@ export default function Form(props: FormHandler) {
             dynamic={product.id ? true : false}
           />
         </div>
+
+        <div className="form__group">
+          <GroupedInput 
+            label='Collections'
+            type='text'
+            name='collections'
+            id='collections'
+            placeholder=''
+            pkey='collection'
+            dynamic={product.id ? true : false}  
+          />
+          <VariantInput 
+            label='Colors'
+            type='text'
+            name='colors'
+            id='colors'
+            placeholder='coral, vanta black, khaki, etc...'
+            pkey='colors'
+            dynamic={product.id ? true : false}  
+          />
+          <VariantInput 
+            label='Sizes'
+            type='text'
+            name='sizes'
+            id='sizes'
+            placeholder='small, medium, large etc...'
+            pkey='sizes'
+            dynamic={product.id ? true : false}  
+          />
+        </div>
+
         <>{renderFormSubmitBtn(!product.id, formBtnState)}</>
       </form>
 
