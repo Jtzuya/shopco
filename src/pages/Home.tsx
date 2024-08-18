@@ -7,18 +7,8 @@ import Masonry from "../components/Masonry"
 import Nav from "../components/Nav"
 import Review from "../components/Review"
 
-import casual from '../store/casual'
-import formal from '../store/formal'
 import butter from "../libs/helper/butter"
 import Endpoints from "../libs/helper/endpoints"
-
-interface Reviews {
-  name: string;
-  message: string;
-  date: string;
-  verified: boolean;
-  rating_count: number;
-}
 
 interface Product {
   // id: number;
