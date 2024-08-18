@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import colorsMapHelper from "../libs/helper/colorsMapHelper";
+import { useState } from "react";
 
 type Prop = {
   items: string[];
