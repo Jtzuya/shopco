@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import ImagePlaceholderIcon from "./admin/Icons/ImagePlaceholderIcon";
 import Stars from "./Stars";
 
-interface Reviews {
-  name: string;
-  message: string;
-  date: string;
-  verified: boolean;
-  rating_count: number;
-}
+// interface Reviews {
+//   name: string;
+//   message: string;
+//   date: string;
+//   verified: boolean;
+//   rating_count: number;
+// }
 
 interface Product {
   // id: number;
