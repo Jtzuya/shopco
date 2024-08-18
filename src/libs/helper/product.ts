@@ -40,7 +40,7 @@ export function arrayCollectionEntryDataCheck(prev: ArrayCollectionEntry[] | [],
   if (sameLength == true) {
     let status = sameLength;
     for(let i = 0; i < curr.length; i++) {
-      if (curr[i].name !== prev[i].name) {
+      if (curr[i].product_id !== prev[i].product_id) {
         status = false;
         break
       }
