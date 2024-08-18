@@ -160,13 +160,7 @@ export default function ProductForm(props: Prop) {
   }
 
   function moveImageHandler(images: Image[] | [], files: File[] | []) {
-    setData(prev => {
-      return {
-        ...prev,
-        images,
-        files
-      }
-    });
+    setData(prev => ({ ...prev, images, files }));
   }
 
   function inputVariantHandler(keys: string, value: string) {
