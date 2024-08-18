@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 // import Collection from "../components/Collection"
 import Footer from "../components/Footer"
 // import Hero from "../components/Hero"
@@ -11,18 +11,13 @@ import Nav from "../components/Nav"
 import { useParams } from "react-router-dom";
 import butter from "../libs/helper/butter";
 import Error404 from "../components/Error404";
-import GetErrorMessage from "../helpers/GetErrorMessage";
 import Breadcrumb from "../components/Breadcrumb";
 import Stars from "../components/Stars";
 import Price from "../components/admin/Price";
 // import formal from '../store/formal'
 
-import prodImg from '../assets/product-img-1.png'
 import Endpoints from "../libs/helper/endpoints";
-import ImagePlaceholderIcon from "../components/admin/Icons/ImagePlaceholderIcon";
-import colorsMapHelper from "../libs/helper/colorsMapHelper";
 import Notification from "../components/Notification";
-import Collection from "../components/Collection";
 import ProductImages from "../components/ProductImages";
 import VariantPill from "../components/VariantPill";
 import VariantCircle from "../components/VariantCircle";
@@ -30,13 +25,13 @@ import QuantitySelector from "../components/QuantitySelector";
 import Loader from "../components/Loader";
 // import Review from "../components/Review";
 
-type Reviews = {
-  name: string;
-  message: string;
-  date: string;
-  verified: boolean;
-  rating_count: number;
-}
+// type Reviews = {
+//   name: string;
+//   message: string;
+//   date: string;
+//   verified: boolean;
+//   rating_count: number;
+// }
 
 type Product = {
   id: number;
