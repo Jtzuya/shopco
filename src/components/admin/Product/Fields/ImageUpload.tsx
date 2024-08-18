@@ -1,8 +1,7 @@
-import { useRef, ChangeEvent, useState } from "react";
+import { useRef, ChangeEvent } from "react";
 import { Image } from "../../../../types/Image";
 import GetErrorMessage from "../../../../helpers/GetErrorMessage";
 import compressImage from "../../../../libs/helper/compressImage";
-import { Collection } from "../../../../types/Collection";
 
 type Prop = {
   loader          ?: boolean;
