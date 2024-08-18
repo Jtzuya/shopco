@@ -83,37 +83,39 @@ export default function ProductList() {
 
   return (
     <div className="admin">
-      <Sidebar currentPage="product-list" />
+      <div className="admin__wrapper">
+        <Sidebar currentPage="product-list" />
 
-      <main className="products">
-        <Nav name='Products Dashboard' />
-        <div className="products__links">
-          <Link to={`/admin/product/new`} className="products__create">Add product</Link>
-        </div>
-        
-        <>{ onMountFetch === true ? onMountFetchHandler() : '' }</>
+        <main className="products">
+          <Nav name='Products Dashboard' />
+          <div className="products__links">
+            <Link to={`/admin/product/create`} className="products__create">Add product</Link>
+          </div>
+          
+          <>{ onMountFetch === true ? onMountFetchHandler() : '' }</>
 
 
-        {
-          productsArr ?
-              <div className="products__table">
-                <Table products={productsArr}/>
-              </div>
-            : ''
-        }
-
-        <div className="products__pagination">
-          { 
-            totalProductsInDb ?
-              totalProductsInDb > 5 ? 
-                  <Pagination length={totalProductsInDb} callback={paginationCallback}/>
-                : 
-                  'no' 
-            : 
-              '' 
+          {
+            productsArr ?
+                <div className="products__table">
+                  <Table products={productsArr}/>
+                </div>
+              : ''
           }
-        </div>
-      </main>
+
+          <div className="products__pagination">
+            { 
+              totalProductsInDb ?
+                totalProductsInDb > 5 ? 
+                    <Pagination length={totalProductsInDb} callback={paginationCallback}/>
+                  : 
+                    '' 
+              : 
+                '' 
+            }
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

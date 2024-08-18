@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import SidebarLink from './SidebarLink';
 
 interface Sidebar {
-  currentPage: string;
+  currentPage: string | null;
 }
 
 export default function Sidebar(props: Sidebar) {
@@ -24,8 +24,8 @@ export default function Sidebar(props: Sidebar) {
         <ul className="sidebar__menus">
           <h3 className="sidebar__menus-title">Menu</h3>
           <SidebarLink url="/admin" name='Overview' current={currentPage === 'admin' ? true : false} />
-          <SidebarLink url="/admin/product-list" name='Products' current={currentPage === 'product-list' ? true : false} />
-          <SidebarLink url="/admin/collection-list" name='Collections' current={currentPage === 'collection-list' ? true : false} />
+          <SidebarLink url="/admin/product-list" name='Products' current={currentPage == 'product-list' || currentPage == 'product' ? true : false} />
+          <SidebarLink url="/admin/collection-list" name='Collections' current={currentPage === 'collection-list' || currentPage == 'collection' ? true : false} />
           <SidebarLink url="/admin/transaction-list" name='Transactions' current={currentPage === 'transaction-list' ? true : false} />
         </ul>
       </div>

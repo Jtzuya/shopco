@@ -13,7 +13,7 @@ export default function Error404(props: ErrorTypes) {
     <div className="error">
       <div className="error__wrapper">
         <h1>{message}</h1>
-        <Link to={collectionUrl[randomCollectionIdx]} className="error__collection-link">Browse Collections</Link>
+        <Link to={'/'} className="error__collection-link">Browse Collections</Link>
       </div>
     </div>
   )

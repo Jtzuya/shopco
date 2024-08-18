@@ -17,11 +17,11 @@ export default function Price(props: Price) {
 
   return (
     <div className="product__prices">
-      <span className="product__price-current">$260</span>
+      <span className="product__price-current">&#36;{current}</span>
       {
         old ?
         <>
-          <span className="product__price-old">$300</span>
+          <span className="product__price-old">&#36;{old}</span>
           <span className={`product__price-saved${priceState}`}>{sale()}%</span>
         </> 
         : ''

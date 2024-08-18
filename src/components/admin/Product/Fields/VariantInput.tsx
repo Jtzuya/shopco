@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useProductContext } from "../../../../libs/context/ProductContext"
-import { T } from "../../../../types/Product";
+import { Color, Name, Size, T } from "../../../../types/Product";
+import skeletonLoader from "../../../../libs/helper/skeletonLoader";
 
 type InputVal = { 
-  colors  : T[] | []; 
-  sizes   : T[] | []; 
+  colors  : Color; 
+  sizes   : Size; 
 }
 
 type Input = {
@@ -22,27 +23,47 @@ type Input = {
  */
 export default function VariantInput(props: Input) {
   const {product, setProduct} = useProductContext()
-  const [isLoading, isSetLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    if (product) {
-      const timer = setTimeout(() => {
-        isSetLoading(false)
-        clearTimeout(timer)
-      }, 5000)
-    }
-  }, [product])
+  if (isLoading === true) {
+    (async() => {
+      const animationTimer = await skeletonLoader(1000)
+      setIsLoading(animationTimer)
+    })()
+  } 
 
-  function changeHandler(value: string, key: string) {
-    console.log(value)
+  function changeHandler(value: string) {
+    const input = value.split(', ').map((name, sort_order_id) => {
+      return {
+        name,
+        sort_order_id
+      }
+    })
+
     setProduct(prev => {
-      if (!prev) return null;
+      if (!prev || !prev[props.pkey]) return prev;
 
       return {
         ...prev,
-        [key]: value.split(', ')
+        [props.pkey]: {
+          id: prev[props.pkey].id,
+          names: input
+        }
       };
     });
+  }
+
+  const value = () => {
+    if (!product[props.pkey]) return ''
+
+    let temp = ''
+    const namesLength = product[props.pkey].names.length - 1
+    product[props.pkey].names.map((item: Name, idx: number) => {
+      const concat = namesLength !== idx ? ', ' : ''
+      temp += item.name + concat
+    })
+
+    return temp
   }
 
   return (
@@ -53,8 +74,8 @@ export default function VariantInput(props: Input) {
           type={props.type}
           name={props.name}
           id={props.id}
-          value={product[props.pkey] ? product[props.pkey].join(', ') : ''}
-          onChange={e => changeHandler(e.target.value, props.pkey)} 
+          value={value()}
+          onChange={e => changeHandler(e.target.value)} 
           placeholder={props.placeholder}
         />
       </label>

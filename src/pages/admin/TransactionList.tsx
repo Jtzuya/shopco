@@ -1,10 +1,13 @@
 import Sidebar from "../../components/admin/Sidebar";
+import Error from "../../components/Error";
 
 export default function TransactionList() {
   return (
     <div className="admin">
-      <Sidebar currentPage="transaction-list" />
-      TransactionList Page
+      <div className="admin__wrapper">
+        <Sidebar currentPage="transaction-list" />
+        <Error />
+      </div>
     </div>
   )
 }

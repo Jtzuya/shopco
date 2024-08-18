@@ -6,7 +6,7 @@ import './styles/index.scss'
 import './styles/font.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  // </React.StrictMode>,
 )

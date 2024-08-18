@@ -1,9 +1,8 @@
 import { useRef, ChangeEvent, useState, useEffect } from "react";
 import GetErrorMessage from "../helpers/GetErrorMessage";
-import short from 'short-unique-id'
-import Compressor from "compressorjs";
 import { useProductContext } from "../libs/context/ProductContext";
 import { Image } from "../types/Image";
+import compressImage from "../libs/helper/compressImage";
 
 // Best approach for this component
 // Serve an image that is not yet stored in the bucket. So it would be a Blob URL
@@ -12,22 +11,6 @@ import { Image } from "../types/Image";
 // Its like a temporary images, but we will keep track of the id, size, type of each image
 // So that if the user wanted to save the product, that is when we store those images to
 // the bucket
-
-async function compressImage(file: File): Promise<File> {
-  return new Promise((resolve, reject) => {
-    new Compressor(file, {
-      quality: 0.5,
-      convertSize: 5000000,
-      success(result) {
-        const imageNewName = (new short({ length: 10 })).rnd();
-        resolve(new File([result], imageNewName, { type: "image/webp" }));
-      },
-      error(err) {
-        reject(err);
-      },
-    })
-  })
-}
 
 type ImageUpload = {
   dynamic: boolean;

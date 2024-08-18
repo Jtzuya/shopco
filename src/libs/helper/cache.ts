@@ -1,11 +1,18 @@
 import { Product } from "../../types/Product";
 import { filter } from "./filter";
 
+type Collection = {
+  id: number;
+  name: string;
+  created_at: string;
+}
+
 type CacheProps = {
   key: string;
   target_key?: string;
   method: string;
   datas?: Product;
+  collection?: Collection;
   data?: string | number;
 }
 
@@ -18,8 +25,8 @@ type CacheProps = {
  * @returns 
  */
 export default function cache(props: CacheProps) {
-  const { key, target_key, method, datas, data } = props
-  const isCached = window.localStorage.getItem(`${key}`);
+  const { key, target_key, method, datas, data, collection } = props
+  const isCached = window.localStorage.getItem(key);
 
   switch(method) {
     case 'get': {
@@ -41,7 +48,7 @@ export default function cache(props: CacheProps) {
       break
     }
     case 'save': {
-      // save returns true if changes being applied
+      // save returns null if changes being applied
       if (!datas) return false;
 
       if (!isCached) {
@@ -59,6 +66,28 @@ export default function cache(props: CacheProps) {
       }
 
       return null
+      break
+    }
+    case 'saveCollection': {
+      // save returns null if changes being applied
+      if (!collection) return false;
+
+      if (!isCached) {
+        if (target_key) localStorage.setItem(key, JSON.stringify({ [target_key]: collection }, null, 2))
+        return null
+      }
+
+      const availableCache = JSON.parse(isCached)
+      if (target_key && availableCache[target_key]) return null // do nothing if the already exists
+
+      // Enforce product check inside prev products hash
+      // to find if this product is in that cache
+      if (target_key && !availableCache[target_key]) {
+        const newdatas = { ...availableCache, [target_key]: collection }
+        localStorage.setItem(key, JSON.stringify(newdatas, null, 2))
+        return null
+      }
+   
       break
     }
     case 'singleSave': {

@@ -24,7 +24,5 @@ export default async function butter(endpoint: URL, method: string, body: string
 
   if (body) config.body = body
   
-  const toast = await fetch(endpoint, config)
-  // debugger
-  return toast
+  return await fetch(endpoint, config)
 }

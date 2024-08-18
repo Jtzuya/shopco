@@ -17,7 +17,7 @@ export default function AnnouncementBar() {
               <p className="announcement-bar__wrapper__heading">
                 Sign up and get 20% off to your first order. 
                 <span className="announcement-bar__wrapper__heading__link">
-                  <Link to="/user">Sign Up Now</Link>
+                  <span title="available soon" data-to="/user">Sign Up Now</span>
                 </span>
               </p>
               

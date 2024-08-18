@@ -12,25 +12,27 @@ import Product from './pages/Product'
 
 import Admin from './pages/admin/Overview'
 import AdminProductList from './pages/admin/ProductList'
-import AdminProduct from './pages/admin/Product'
+import AdminCreateProduct from './pages/admin/CreateProduct'
+import AdminEditProduct from './pages/admin/EditProduct'
+import AdminCreateCollection from './pages/admin/CreateCollection'
 import AdminCollectionList from './pages/admin/CollectionList'
-import AdminCollection from './pages/admin/Collection'
+import AdminEditCollection from './pages/admin/EditCollection'
 import AdminTransactionList from './pages/admin/TransactionList'
 import AdminTransaction from './pages/admin/Transaction'
 
 /** styles */
 import './styles/App.scss'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 
 function App() {
-  useEffect(() => {
-    const clearCache = setTimeout(() => {
-      localStorage.clear();
-    }, 1000 * 60 * 10) // clears cache every 10 minutes
+  // useEffect(() => {
+  //   const clearCache = setTimeout(() => {
+  //     localStorage.clear();
+  //   }, 1000 * 60 * 10) // clears cache every 10 minutes
 
-    // Cleanup function to clear the timeout if the component unmounts
-    return () => clearTimeout(clearCache)
-  }, [])
+  //   // Cleanup function to clear the timeout if the component unmounts
+  //   return () => clearTimeout(clearCache)
+  // }, [])
 
   return (
     <BrowserRouter>
@@ -51,12 +53,13 @@ function App() {
         {/* Protected Routes */}
         <Route path='/admin' element={<Admin />} /> {/** Overview */}
         <Route path='/admin/product-list' element={<AdminProductList />} />
-        <Route path='/admin/product' element={<AdminProduct />} />
-        <Route path='/admin/product/new' element={<AdminProduct />} />
-        <Route path='/admin/product/:product_id' element={<AdminProduct />} />
+        <Route path='/admin/product/create' element={<AdminCreateProduct />} />
+        <Route path='/admin/product/:product_id' element={<AdminEditProduct />} />
+          
         <Route path='/admin/collection-list' element={<AdminCollectionList />} />
-        <Route path='/admin/collection/new' element={<AdminCollection />} />
-        <Route path='/admin/collection/:collection_id' element={<AdminCollection />} />
+        {/* <Route path='/admin/collection/new' element={<AdminCollection />} /> */}
+        <Route path='/admin/collection/create' element={<AdminCreateCollection />} />
+        <Route path='/admin/collection/:collection_id' element={<AdminEditCollection />} />
         <Route path='/admin/transaction-list' element={<AdminTransactionList />} />
         <Route path='/admin/transaction' element={<AdminTransaction />} />
       </Routes>

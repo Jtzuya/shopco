@@ -1,75 +1,102 @@
 // import 'dotenv/config'
 // const serverOrigin = process.env.REACT_APP_SERVER
 import { Link } from 'react-router-dom';
-import { useRef, useState, RefObject, createRef } from 'react'
+import React, { useRef, useState, RefObject, createRef } from 'react'
 import { Table as PTT } from '../../types/Product';
 
-interface TableProps {
-  products: PTT[];
+type Datas = {
+  id: number;
+  name: string;
+  created_at: string;
 }
 
-export default function CollectionTable(props: TableProps) {
+type Table = {
+  column: number;
+  datas: Datas[] | [];
+  heading: string[] | [];
+  to: string;
+}
+
+type Months = {
+  [key: string] : string;
+}
+
+const months: Months = {
+  '01': 'January',
+  '02': 'February',
+  '03': 'March',
+  '04': 'April',
+  '05': 'May',
+  '06': 'June',
+  '07': 'July',
+  '08': 'August',
+  '09': 'September',
+  '10': 'October',
+  '11': 'November',
+  '12': 'December',
+}
+
+export default function CollectionTable(props: Table) {
   const [checkbox, setCheckbox] = useState(false)
-  const { products } = props
+  const { datas, column, heading, to } = props
 
-  // const tableRowRefs = useRef<RefObject<HTMLInputElement>[]>([]);
   const tableRowRefs = useRef<RefObject<HTMLInputElement>[]>([]);
-  // tableRowRefs.current = []
 
-  if (products.length) {
-    // tableRowRefs.current = Array.from({ length: products.length }, () => createRef(null));
-    tableRowRefs.current = Array.from({ length: products.length }, () => createRef<HTMLInputElement>());
+  if (datas.length) {
+    tableRowRefs.current = Array.from({ length: datas.length }, () => createRef<HTMLInputElement>());
   }
 
   function checkBoxHandler(state: boolean) {
-    // console.log(tableRowRefs)
     tableRowRefs.current.forEach((row) => {
-      // console.log(row);
       if (row && row.current) row.current.checked = !state;
     });
     setCheckbox(!state)
   }
 
   return (
-    <div className="table">
-      <div className="table__heading">
-        <div className="table__row">
-          {/* select all products in this page*/}
-          <div className="table__cell">
-            <input type="checkbox" name="select_all_products" id="select_all_products" onClick={() => checkBoxHandler(checkbox)}/> 
+    <div className="table-wrapper">
+      <div className="table" style={{'--repeat-count': column} as React.CSSProperties}>
+        <div className="table__heading">
+          <div className="table__row">
+            {/* select all products in this page*/}
+            <div className="table__cell">
+              <input type="checkbox" name="select_all_products" id="select_all_products" onClick={() => checkBoxHandler(checkbox)}/> 
+            </div>
 
+            {
+              heading && heading.length > 0 ?
+              heading.map((name, idx) => {
+                return(
+                  <div key={idx} className="table__cell">{name}</div>
+                )
+              })
+              : ''
+            }
           </div>
-          <div className="table__cell">Collection</div>
-          <div className="table__cell">Status</div>
-          <div className="table__cell">Associated</div>
-          <div className="table__cell">Type</div>
-          <div className="table__cell">Created Date</div>
         </div>
-      </div>
 
-      <div className="table__body">
-        {
-          products.map((product, idx) => {
-            return (
-              <div key={idx} className="table__row">
-                <div className="table__cell">
-                  <input type="checkbox" name="select_product" id="select_product" ref={tableRowRefs.current[idx]}/> 
+        <div className="table__body">
+          {
+            datas.map((data, idx) => {
+              const date = data.created_at.split('T')[0].split('-')
+              const year  = date[0];
+              const month = months[date[1]];
+              const day   = date[2];
+              
+              return (
+                <div key={idx} className="table__row">
+                  <div className="table__cell">
+                    <input type="checkbox" name="select_product" id="select_product" ref={tableRowRefs.current[idx]}/> 
+                  </div>
+                  <div className="table__cell">
+                    <Link to={[to, data.id].join('/')}>{data.name}</Link>
+                  </div>
+                  <div className="table__cell">{`${month} ${day}, ${year}`}</div>
                 </div>
-                <div className="table__cell">
-                  <Link to={`/admin/product/${product.product_id}`}>{product.name}</Link>
-                </div>
-                <div className="table__cell">Active</div>
-                <div className="table__cell">
-                  {/* <p>30 in stock for 3 variants 30 in stock for 3 variants</p> */}
-                  <p>with {product.stock} products</p>
-                </div>
-                <div className="table__cell"></div> {/** if blank means no category */}
-                {/* <div className="table__cell">accessories</div> */}
-                <div className="table__cell"></div>
-              </div>
-            )
-          })
-        }
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   )

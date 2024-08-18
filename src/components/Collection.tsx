@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import ImagePlaceholderIcon from "./admin/Icons/ImagePlaceholderIcon";
 import Stars from "./Stars";
 
 interface Reviews {
@@ -9,50 +11,52 @@ interface Reviews {
 }
 
 interface Product {
-  id: number;
-  title: string;
-  colors: string[];
-  sizes: string[];
-  category: string[];
-  details: string;
-  product_summary: string;
-  images: string[];
+  // id: number;
+  // product_id: string;
+  name: string;
+  url: string; // first image url
   current_price: number;
-  stock: number;
-  reviews: Reviews[];
 }
 
 
 interface CollectionProps {
-  underline?: boolean;
-  toCollection?: boolean;
-  title: string;
-  data: Product[];
+  underline?    : boolean;
+  toCollection? : boolean;
+  title         : string;
+  data          : Product[];
+  loader?       : boolean;
 }
 
 export default function Collection(props: CollectionProps) {
-  const { underline, toCollection, data, title } = props
+  const { underline, toCollection, data, title, loader } = props
   // const review_count = 4.5
   // const review_stars = 5
 
   return(
-    <section className="collection">
+    <section className={loader ? 'collection collection--skeleton' : 'collection'}>
       <div className={`collection__wrapper ${underline ? 'collection__wrapper--separator' : ''}`}>
         <h3 className="collection__heading">{title}</h3>
         <div className="collection__products">
           {
-            data.map((i, idx) => {
+            data.map((product, idx) => {
+              const { name, url, current_price } = product
+              const rating_count = Math.floor(Math.random() * (5 - 3) + 1) + 3
+              const product_url = ['/product', name].join('/')
+
               return (
                 <div key={idx} className="collection__product">
-                  <img src={i.images[0]} alt="" className='collection__product-img'/>
-                  <p className="collection__product-title">{i.title}</p>
+                  <div className="collection__product-img-wrapper">
+                    { url ? <img src={url} alt="" className='collection__product-img'/> : <ImagePlaceholderIcon /> }
+                  </div>
+                  
+                  <Link to={product_url} className="collection__product-title">{name}</Link>
                   <div className="collection__ratings">
                     <div className="collection__ratings-stars">
-                      <Stars rating_count={Math.floor(Math.random() * (5 - 3) + 1) + 3} />
+                      <Stars rating_count={rating_count} />
                     </div>
-                    <span className="collection__ratings-count">4.5/5</span>
+                    <span className="collection__ratings-count">{rating_count}/5</span>
                   </div>
-                  <p className="collection__price">&#36;{i.current_price}</p>
+                  <p className="collection__price">&#36;{current_price}</p>
                 </div>
               )
             })

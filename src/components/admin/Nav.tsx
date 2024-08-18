@@ -13,7 +13,7 @@ export default function Nav(props: Nav) {
 
         <div className="nav__content">
           <h1 className="nav__title">{name}</h1>
-          <div className="nav__options">
+          {/* <div className="nav__options">
             <form className="nav__form">
               <div className="nav__form-field">
                 <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@ export default function Nav(props: Nav) {
                 <path d="M16.3673 19.6945C16.3673 21.3853 14.9839 22.7687 13.293 22.7687C12.4527 22.7687 11.6739 22.4203 11.1205 21.8669C10.5672 21.3136 10.2188 20.5348 10.2188 19.6945" stroke="currentColor" strokeWidth="1.53713" strokeMiterlimit="10"/>
               </svg>
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     </nav>

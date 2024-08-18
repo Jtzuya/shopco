@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ImageUpload  from "../../ImageUpload";
 import SubmitBtn    from "./Submit";
 import { useProductContext } from '../../../libs/context/ProductContext';
-import { arrayDataCheck, numberDataCheck, stringDataCheck } from '../../../libs/helper/product';
+import { arrayCollectionEntryDataCheck, arrayColorDataCheck, arrayDataCheck, arrayImageDataCheck, arraySizeDataCheck, numberDataCheck, stringDataCheck } from '../../../libs/helper/product';
 import { FormHandler } from '../../../types/Product';
 import Endpoints from '../../../libs/helper/endpoints';
 import butter from '../../../libs/helper/butter';
@@ -23,13 +23,16 @@ export default function Form(props: FormHandler) {
   useEffect(() => {
     if (!product || !productRecord) return;
 
-    const _name           = stringDataCheck(productRecord.name, product.name)
-    const _description    = stringDataCheck(productRecord.description, product.description)
-    const _summary        = stringDataCheck(productRecord.summary, product.summary)
-    const _stock          = numberDataCheck(productRecord.stock, product.stock)
-    const _current_price  = numberDataCheck(productRecord.current_price, product.current_price)
-    const _old_price      = numberDataCheck(productRecord.old_price, product.old_price)
-    const _images         = arrayDataCheck(productRecord.images, product.images)
+    const _name                   = stringDataCheck(productRecord.name, product.name)
+    const _description            = stringDataCheck(productRecord.description, product.description)
+    const _summary                = stringDataCheck(productRecord.summary, product.summary)
+    const _stock                  = numberDataCheck(productRecord.stock, product.stock)
+    const _current_price          = numberDataCheck(productRecord.current_price, product.current_price)
+    const _old_price              = numberDataCheck(productRecord.old_price, product.old_price)
+    const _images                 = arrayImageDataCheck(productRecord.images, product.images)
+    const _collection_entries     = arrayCollectionEntryDataCheck(productRecord.collection_entries, product.collection_entries)
+    const _sizes                  = arraySizeDataCheck(productRecord.sizes.names, product.sizes.names)
+    const _colors                 = arrayColorDataCheck(productRecord.colors.names, product.colors.names)
 
     if (
       !_name || 
@@ -38,7 +41,10 @@ export default function Form(props: FormHandler) {
       !_stock || 
       !_current_price || 
       !_old_price || 
-      !_images
+      !_images ||
+      !_collection_entries ||
+      !_sizes ||
+      !_colors
     ) return setFormBtnState(true)
 
     return setFormBtnState(false)
@@ -51,6 +57,7 @@ export default function Form(props: FormHandler) {
       const deleteProductResponse = await butter(endpoint, 'post', JSON.stringify(productRecord))
       const deleteProductResponseData = await deleteProductResponse.json()
       if(!deleteProductResponse.ok) throw new Error(deleteProductResponseData.message)
+      window.localStorage.removeItem("products");
       navigate('/admin/product-list')
     } catch (error) {
       alert(GetErrorMessage(error))
@@ -124,7 +131,7 @@ export default function Form(props: FormHandler) {
             name='collections'
             id='collections'
             placeholder=''
-            pkey='collection'
+            pkey='collections'
             dynamic={product.id ? true : false}  
           />
           <VariantInput 

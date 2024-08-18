@@ -1,115 +1,125 @@
 import { Link } from "react-router-dom";
 import Nav from "../../components/admin/Nav";
 import Sidebar from "../../components/admin/Sidebar";
-import Table from "../../components/admin/Table";
 import { useState } from "react";
 import Endpoints from "../../libs/helper/endpoints";
 import butter from "../../libs/helper/butter";
 import cache from "../../libs/helper/cache";
-import { Product as PT, Table as PTT } from "../../types/Product";
 import GetErrorMessage from "../../helpers/GetErrorMessage";
 import Pagination from "../../components/admin/Pagination";
 import CollectionTable from "../../components/admin/CollectionTable";
 
 const Server = new Endpoints()
 
-export default function CollectionList() {
-  const [productsArr, setProductsArr] = useState<PTT[] | []>([])
-  const [onMountFetch, setOnMountFetch] = useState(true)
-  const [totalProductsInDb, setTotalProductsInDb] = useState<number | null>(null)
+type CollectionList = {
+  id: number;
+  name: string;
+  created_at: string;
+}
 
+export default function CollectionList() {
+  const [totalProductsInDb, setTotalProductsInDb] = useState<number | null>(null) // for pagination track
+  const [collectionList, setCollectionList] = useState<CollectionList[] | []>([])
+  const [onMountFetch, setOnMountFetch] = useState(true)
+ 
   async function onMountFetchHandler(page: number = 1) {
     // console.log(params)
     // console.log(window.location.search)
     setOnMountFetch(false)
 
-    // return
-    const productsInCache = cache({key: 'products', method: 'getAll'})
-    // console.log(productsInCache.length)
+    const collectionsInCache = cache({key: 'collections', method: 'getAll'})
 
-    if (productsInCache) {
-      console.log('get list products from cache')
-      for (const key of Object.keys(productsInCache)) {
-        const product = productsInCache[key]
-        
-        setProductsArr(prev => {
-          if (!prev) return []
-          return [...prev, {
-            id: product.id, 
-            product_id: product.product_id, 
-            name: product.name,
-            stock: product.stock
-          }]
-        })
+    if (collectionsInCache) {
+      console.log('get list collections from cache')
+      for (const key of Object.keys(collectionsInCache)) {
+        const {id, name, created_at} = collectionsInCache[key]
+        setCollectionList(prev => [...prev, {id, name, created_at}])
       }
 
       // TODO: flaw of count
-      const count = cache({key: 'products_count', method: 'singleGet' })
+      const count = cache({key: 'collections_count', method: 'singleGet' })
       setTotalProductsInDb(Number(count))
-      // console.log(count)
       return
     }
     
-    await getProducts(page)
+    await getCollectionList(page)
   }
 
-  async function getProducts(page: number = 1) {
+  async function getCollectionList(page: number = 1) {
     try {
-      console.log('atempting to get list of products from db')
-      const request   = await butter(Server.getProductList(page), 'get')
+      console.log('atempting to get list of collections from db')
+      const request   = await butter(Server.getCollectionList(page), 'get')
       if (!request.ok) throw new Error('failed to grab data')
 
       const { data, count } = await request.json()
 
+      if (data.length > 0) {
+        data.map((collection: CollectionList) => { 
+          cache({
+            key: 'collections', 
+            target_key: String(collection.id), 
+            method: 'saveCollection', 
+            collection: collection
+          })
+        })
+      }
+
       if (page < 2) {
-        data.map((product: PT) => { cache({key: 'products', target_key: String(product.product_id), method: 'save', datas: product}) })
-        cache({key: 'products_count', method: 'singleSave', data: count })
+        cache({key: 'collections_count', method: 'singleSave', data: count }) // stores the collections count in localstorage
       }
 
       setTotalProductsInDb(count)
-      setProductsArr(data)
+      setCollectionList(data)
     } catch (error) {
       alert(GetErrorMessage(error))
     }
   }
 
+  // call funciton
+  if (onMountFetch === true) { onMountFetchHandler() }
+
   async function paginationCallback(page: number) {
-    await getProducts(page)
+    await onMountFetchHandler(page)
   }
 
   return (
     <div className="admin">
-      <Sidebar currentPage="collection-list" />
+      <div className="admin__wrapper">
+        <Sidebar currentPage="collection-list" />
 
-      <main className="products">
-        <Nav name='Collections Dashboard' />
-        <div className="products__links">
-          <Link to={`/admin/collection/new`} className="products__create">Create new collection</Link>
-        </div>
-        
-        {/* <>{ onMountFetch === true ? onMountFetchHandler() : '' }</> */}
+        <main className="products">
+          <Nav name='Collections Dashboard' />
+          <div className="products__links">
+            <Link to={`/admin/collection/create`} className="products__create">Create new collection</Link>
+          </div>
 
-
-        {
-          productsArr ?
-              <div className="products__table">
-                <CollectionTable products={productsArr}/>
-              </div>
-            : ''
-        }
-
-        <div className="products__pagination">
-          { 
-            totalProductsInDb ?
-              totalProductsInDb > 5 ? 
-                  <Pagination length={totalProductsInDb} callback={paginationCallback}/>
-                : 
-                  'no' 
+          {
+            collectionList ?
+            <div className="products__table">
+              <CollectionTable
+                column={2}
+                heading={['Collection Name', 'Created']}
+                to='/admin/collection'
+                datas={collectionList}
+              />
+            </div>
             : 
-              '' 
+            ''
           }
-        </div>
-      </main>
+
+          <div className="products__pagination">
+            { 
+              totalProductsInDb ?
+                totalProductsInDb > 5 ? 
+                    <Pagination length={totalProductsInDb} callback={paginationCallback}/>
+                  : 
+                    'no' 
+              : 
+                '' 
+            }
+          </div>
+        </main>
+      </div>
     </div>
   )
 }

@@ -31,45 +31,47 @@ export default function Table(props: TableProps) {
   }
 
   return (
-    <div className="table">
-      <div className="table__heading">
-        <div className="table__row">
-          {/* select all products in this page*/}
-          <div className="table__cell">
-            <input type="checkbox" name="select_all_products" id="select_all_products" onClick={() => checkBoxHandler(checkbox)}/> 
+    <div className="table-wrapper">
+      <div className="table">
+        <div className="table__heading">
+          <div className="table__row">
+            {/* select all products in this page*/}
+            <div className="table__cell">
+              <input type="checkbox" name="select_all_products" id="select_all_products" onClick={() => checkBoxHandler(checkbox)}/> 
 
+            </div>
+            <div className="table__cell">Product</div>
+            <div className="table__cell">Status</div>
+            <div className="table__cell">Inventory</div>
+            <div className="table__cell">Category</div>
+            <div className="table__cell">Type</div>
           </div>
-          <div className="table__cell">Product</div>
-          <div className="table__cell">Status</div>
-          <div className="table__cell">Inventory</div>
-          <div className="table__cell">Category</div>
-          <div className="table__cell">Type</div>
         </div>
-      </div>
 
-      <div className="table__body">
-        {
-          products.map((product, idx) => {
-            return (
-              <div key={idx} className="table__row">
-                <div className="table__cell">
-                  <input type="checkbox" name="select_product" id="select_product" ref={tableRowRefs.current[idx]}/> 
+        <div className="table__body">
+          {
+            products.map((product, idx) => {
+              return (
+                <div key={idx} className="table__row">
+                  <div className="table__cell">
+                    <input type="checkbox" name="select_product" id="select_product" ref={tableRowRefs.current[idx]}/> 
+                  </div>
+                  <div className="table__cell">
+                    <Link to={`/admin/product/${product.product_id}`}>{product.name}</Link>
+                  </div>
+                  <div className="table__cell">Active</div>
+                  <div className="table__cell">
+                    {/* <p>30 in stock for 3 variants 30 in stock for 3 variants</p> */}
+                    <p>{product.stock} in stock</p>
+                  </div>
+                  <div className="table__cell"></div> {/** if blank means no category */}
+                  {/* <div className="table__cell">accessories</div> */}
+                  <div className="table__cell"></div>
                 </div>
-                <div className="table__cell">
-                  <Link to={`/admin/product/${product.product_id}`}>{product.name}</Link>
-                </div>
-                <div className="table__cell">Active</div>
-                <div className="table__cell">
-                  {/* <p>30 in stock for 3 variants 30 in stock for 3 variants</p> */}
-                  <p>{product.stock} in stock</p>
-                </div>
-                <div className="table__cell"></div> {/** if blank means no category */}
-                {/* <div className="table__cell">accessories</div> */}
-                <div className="table__cell"></div>
-              </div>
-            )
-          })
-        }
+              )
+            })
+          }
+        </div>
       </div>
     </div>
   )

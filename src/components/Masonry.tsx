@@ -15,17 +15,17 @@ export default function Masonry() {
           </div>
 
           <div className="masonry__block masonry__block--stretched">
-            <p className="masonry__block-title">Casual</p>
+            <p className="masonry__block-title">Formal</p>
             <img src={imgFormal} alt="" />
           </div>
   
           <div className="masonry__block masonry__block--stretched">
-            <p className="masonry__block-title">Casual</p>
+            <p className="masonry__block-title">Party</p>
             <img src={imgParty} alt="" />
           </div>
 
           <div className="masonry__block">
-            <p className="masonry__block-title">Casual</p>
+            <p className="masonry__block-title">Gym</p>
             <img src={imgGym} alt="" />
           </div>
         </div>
