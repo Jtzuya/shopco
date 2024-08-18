@@ -6,8 +6,8 @@ type ErrorTypes = {
 
 export default function Error404(props: ErrorTypes) {
   const { message } = props
-  const collectionUrl = ['/brands', '/on-sale', '/new-arrivals']
-  const randomCollectionIdx = Math.floor(Math.random() * ((collectionUrl.length - 1) - 0))
+  // const collectionUrl = ['/brands', '/on-sale', '/new-arrivals']
+  // const randomCollectionIdx = Math.floor(Math.random() * ((collectionUrl.length - 1) - 0))
 
   return (
     <div className="error">
