@@ -15,7 +15,7 @@ type Prop = {
   
   callbackUpload: (keys: string, value: File, order: number) => void;
   callbackDelete: (image: Image) => void;
-  callbackMove?: (images: Image[] | [], files: File[] | []) => void;
+  callbackMove?:  (images: Image[] | [], files: File[] | []) => void;
   files: File[] | [];
 }
 
@@ -109,7 +109,7 @@ export default function MultiImageUpload(props: Prop) {
       }
     }
     
-    callbackMove(newImages, newImagesFileArrangement)
+    callbackMove ? callbackMove(newImages, newImagesFileArrangement) : console.log('cannot move images')
   }
   
   function handleDragEnd() {
