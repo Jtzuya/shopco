@@ -2,7 +2,6 @@
 // const serverOrigin = process.env.REACT_APP_SERVER
 import { Link } from 'react-router-dom';
 import React, { useRef, useState, RefObject, createRef } from 'react'
-import { Table as PTT } from '../../types/Product';
 
 type Datas = {
   id: number;
