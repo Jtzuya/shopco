@@ -1,4 +1,4 @@
-import { Image } from "./Image"
+import { Image } from "./Image";
 
 export type T = {
   id          : number;
@@ -64,13 +64,6 @@ export type CollectionEntry = {
 export type Collection = {
   id: number;
   name: string;
-}
-
-export type Image = {
-  id: number;
-  name: string;
-  sort_order_id: number; 
-  product_id: string;
 }
 
 export type RenderProduct = {
