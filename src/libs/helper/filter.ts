@@ -1,19 +1,31 @@
+import { Image } from "../../types/Image";
 import { Product } from "../../types/Product";
 
-export function filter(props: Product) {
-  for (const key of Object.keys(props)) {
-    if (key === 'name' && !props[key]) props[key] = ''
-    if (key === 'description' && !props[key]) props[key] = ''
-    if (key === 'summary' && !props[key]) props[key] = ''
-    
-    if (key === 'id' && !props[key]) props[key] = 0
-    if (key === 'stock' && !props[key]) props[key] = 0
-    if (key === 'current_price' && !props[key]) props[key] = 0
-    if (key === 'old_price' && !props[key]) props[key] = 0
-    
-    if (key === 'files' && !props[key]) props[key] = []
-    if (key === 'images' && !props[key]) props[key] = []
+type Filter = {
+  product: Product;
+  files: File[] | [];
+  images: Image[] | [];
+}
+
+export function filter(props: Filter) {
+  const updatedProduct = { ...props.product };
+
+  for (const key in updatedProduct) {
+    if (key === 'name' && !updatedProduct[key]) updatedProduct[key] = '';
+    if (key === 'description' && !updatedProduct[key]) updatedProduct[key] = '';
+    if (key === 'summary' && !updatedProduct[key]) updatedProduct[key] = '';
+
+    if (key === 'id' && !updatedProduct[key]) updatedProduct[key] = 0;
+    if (key === 'stock' && !updatedProduct[key]) updatedProduct[key] = 0;
+    if (key === 'current_price' && !updatedProduct[key]) updatedProduct[key] = 0;
+    if (key === 'old_price' && !updatedProduct[key]) updatedProduct[key] = 0;
   }
 
-  return props
+  const updatedProps: Filter = {
+    product: updatedProduct,
+    files: props.files.length > 0 ? props.files : [],
+    images: props.images.length > 0 ? props.images : [],
+  };
+
+  return updatedProps;
 }
