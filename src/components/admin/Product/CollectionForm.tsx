@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { Image } from "../../../types/Image"
 import NewInput from "./Fields/NewInput"
 import ImageUpload from "./Fields/ImageUpload"
 import { arrayImageDataCheck } from "../../../libs/helper/product";
@@ -13,8 +12,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { RenderCollection } from "../../../types/Collection";
 import { inventoryCollectionCompile } from "../../../libs/helper/collection";
 import { stringDataCheck } from "../../../libs/helper/checker";
-import EyeIcon from "../Icons/EyeIcon";
-import ImagePlaceholderIcon from "../Icons/ImagePlaceholderIcon";
 import CollectionProduct from "../CollectionProduct";
 
 const server = new Endpoints()
@@ -82,6 +79,8 @@ export default function CollectionForm(props: Prop) {
     if (!key) return
 
     const newImage = [{
+      id: data.collection.id,
+      product_id: data.collection.id,
       name: value.name,
       url: URL.createObjectURL(value),
       size: value.size,
