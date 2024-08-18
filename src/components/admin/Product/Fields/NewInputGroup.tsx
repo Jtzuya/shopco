@@ -1,10 +1,6 @@
 import { useRef, useState } from "react";
 import { Collection, CollectionEntry } from "../../../../types/Product";
 import CheckIcon from "../../Icons/CheckIcon";
-import cache from "../../../../libs/helper/cache";
-import butter from "../../../../libs/helper/butter";
-import Endpoints from "../../../../libs/helper/endpoints";
-import GetErrorMessage from "../../../../helpers/GetErrorMessage";
 
 export type Name = {
   name: string;
