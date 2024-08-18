@@ -1,6 +1,4 @@
 import React from "react";
-import { Collection, CollectionEntry } from "../../../../types/Product";
-
 
 export type Name = {
   name: string;
