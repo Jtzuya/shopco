@@ -2,7 +2,6 @@ import Breadcrumb from "../components/Breadcrumb";
 import Footer from "../components/Footer";
 import Nav from "../components/Nav";
 
-import productImg from '../assets/product-img-1.png'
 import { useState } from "react";
 import Error404 from "../components/Error404";
 
@@ -14,17 +13,23 @@ type Summary = {
 };
 
 type CartProductDetail = {
+  name: string;
+  image: string;
   price: number;
   quantity: number;
   discount?: number;
   delivery_fee?: number;
+  size?: string;
+  color?: string;
 };
+
+type CartItem = [string, CartProductDetail];
 
 export default function Cart() {
   const [hasProductInCart, setHasProductInCart] = useState(true)
   const [loader, setLoader] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState<CartItem[]>([])
   const [summary, setSummary] = useState<Summary>({
     subtotal: 0,
     discount: 0,
@@ -38,7 +43,7 @@ export default function Cart() {
       const inCache = window.localStorage.getItem('cart')
       if (!inCache) throw new Error()
 
-      const productsInCart = JSON.parse(inCache)
+      const productsInCart: CartItem[] = JSON.parse(inCache)
 
       if (productsInCart.length < 1) throw new Error()
       setItems(productsInCart)
@@ -69,7 +74,7 @@ export default function Cart() {
   if (loader) (async() => onMountFetchHandler())()
 
   function deleteItemHandler(id: string) {
-    const newItems = items.filter(item => item[0] !== id) // removes item
+    const newItems: CartItem[] = items.filter(item => item[0] !== id) // removes item
     
     if (newItems.length < 1) {
       setErrorMessage("Your cart is empty.")
