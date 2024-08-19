@@ -34,10 +34,10 @@ export default function Nav() {
           </ul>
 
           <ul className="nav__wrapper__links">
-            <Link to="/" className="nav__wrapper__links__link">Shop</Link>
-            <Link to="/on-sale" className="nav__wrapper__links__link">On Sale</Link>
-            <Link to="/new-arrivals" className="nav__wrapper__links__link">New Arrivals</Link>
-            <Link to="/brands" className="nav__wrapper__links__link">Brands</Link>
+            <span data-to="/" className="nav__wrapper__links__link">Shop</span>
+            <span data-to="/on-sale" className="nav__wrapper__links__link">On Sale</span>
+            <span data-to="/new-arrivals" className="nav__wrapper__links__link">New Arrivals</span>
+            <span data-to="/brands" className="nav__wrapper__links__link">Brands</span>
           </ul>
 
           <form className="nav__wrapper__form" action="#" title="available soon">
