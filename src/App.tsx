@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-// import { useState } from 'react'
 
 /** pages */
 import Home from './pages/Home'
@@ -22,18 +21,8 @@ import AdminTransaction from './pages/admin/Transaction'
 
 /** styles */
 import './styles/App.scss'
-// import { useEffect } from 'react'
 
 function App() {
-  // useEffect(() => {
-  //   const clearCache = setTimeout(() => {
-  //     localStorage.clear();
-  //   }, 1000 * 60 * 10) // clears cache every 10 minutes
-
-  //   // Cleanup function to clear the timeout if the component unmounts
-  //   return () => clearTimeout(clearCache)
-  // }, [])
-
   return (
     <BrowserRouter>
       {/* 
