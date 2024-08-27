@@ -10,5 +10,5 @@ Stack used:
 Reminder:
 - Animations are not the primary focus
 - Interaction is limited to storefront homepage products
-- Most data is static
+- Most data are static
 - /admin route can be viewed but cannot create/update/delete products/collections due to db RLS policy
